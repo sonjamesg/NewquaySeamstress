@@ -109,7 +109,7 @@ def home(pre, g):
 <svg class="hero-stitch draw" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 Q 150 0 300 20 T 600 20 T 900 20 T 1200 20"/></svg>
 </section>
 
-<section class="tweed stitched" aria-labelledby="heritage-h"><div class="wrap split">
+<section class="tweed stitched" aria-labelledby="heritage-h"><!--SNIP--><div class="wrap split">
 <figure class="polaroid reveal">{img(pre, "heritage-tailor", "Vintage tailor's workshop with a green wool military-style jacket on a dress form, tape measure and cast-iron sewing machine")}<figcaption>Half a century of tailoring</figcaption></figure>
 <div class="reveal"><p class="eyebrow">Our heritage</p><h2 id="heritage-h">Military-standard tailoring, passed from mother to daughter</h2>
 <p>For more than 50 years Sylvia worked as a tailor for the military at <strong>RAF St Mawgan</strong>, just up the road from Newquay. Uniforms leave no room for "near enough": every hem level, every seam straight, every button where it should be. That is the standard she brings to your jeans, your coats and your curtains.</p>
@@ -121,7 +121,7 @@ def home(pre, g):
 <div class="section-head reveal"><p class="script">Pick your fabric</p><h2 id="svc-h">Sewing services in Newquay</h2><p>From a single button to a pair of blackout curtains, with clear guide prices for everything we do.</p></div>
 <div class="swatches">{cards}</div></div></section>
 
-<section class="denim stitched" aria-labelledby="craft-h"><div class="wrap split">
+<section class="denim stitched" aria-labelledby="craft-h"><!--SNIP--><div class="wrap split">
 <div class="reveal"><p class="eyebrow">Everyday clothes, military standard</p><h2 id="craft-h">The small jobs, done properly</h2>
 <p>A jeans hem that keeps its faded factory edge. A coat zip set in dead straight. A split seam re-sewn so it never splits again. Our work is everyday alterations and repairs, and we finish every one with the precision Sylvia learned as a military tailor.</p>
 <ul><li><a href="{pre}trouser-jeans-alterations-newquay/">Trouser &amp; jeans alterations</a></li><li><a href="{pre}zip-replacement-newquay/">Zip &amp; button replacement</a></li><li><a href="{pre}clothing-repairs-newquay/">Clothing repairs &amp; mending</a></li><li><a href="{pre}curtain-alterations-newquay/">Curtain shortening &amp; home</a></li></ul></div>
@@ -135,7 +135,7 @@ def home(pre, g):
 <div class="price-card pinked-bottom reveal"><h3>Most asked-for <small class="eyebrow">guide prices</small></h3><table class="price-table"><caption class="sr-only">Popular guide prices</caption><tbody>{teaser}</tbody></table></div>
 </div></section>
 
-<section aria-labelledby="how-h"><div class="wrap">
+<section class="snip-host" aria-labelledby="how-h"><!--SNIP--><div class="wrap">
 <div class="section-head reveal"><p class="script">Simple as that</p><h2 id="how-h">How it works</h2></div>
 <ul class="notions">
 <li class="reveal spin-hover">{g["button_svg"]("#7b2d26")}<div><h3>1. Wash it</h3><p>Clean items only, so please freshly wash garments and curtains before drop-off.</p></div></li>
@@ -144,7 +144,7 @@ def home(pre, g):
 <li class="reveal spin-hover">{g["button_svg"]("#6a2420")}<div><h3>Need it fast?</h3><p>Express service in {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p></div></li>
 </ul></div></section>
 
-<section class="linen" aria-labelledby="areas-h"><div class="wrap">
+<section class="linen snip-host" aria-labelledby="areas-h"><!--SNIP--><div class="wrap">
 <div class="section-head reveal"><p class="eyebrow">Around Newquay</p><h2 id="areas-h">Your local seamstress across mid &amp; north Cornwall</h2>
 <p>Based in Newquay, with customers from St Columb, St Mawgan, Crantock, St Newlyn East, Perranporth, St Austell, Truro and beyond. <a href="{pre}areas-we-serve/">See the areas we serve</a>.</p></div>
 <ul class="badges" style="justify-content:center">{"".join(f'<li>📍 {_h.escape(n)}</li>' for n, d in AREAS)}</ul>

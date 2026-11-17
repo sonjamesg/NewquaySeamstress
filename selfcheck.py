@@ -18,7 +18,8 @@ for f in pages:
     base = os.path.dirname(f)
     for href in re.findall(r'href="([^"]+)"', s):
         if href.startswith(("http", "mailto:", "tel:", "#")) and not href.startswith(URL): continue
-        p = href.split("#")[0].replace(URL + "/", "docs/") if href.startswith(URL) else os.path.normpath(os.path.join(base, href.split("#")[0]))
+        h = href.split("#")[0].split("?")[0]
+        p = h.replace(URL + "/", "docs/") if h.startswith(URL) else os.path.normpath(os.path.join(base, h))
         p = urllib.parse.unquote(p)
         target = os.path.join(p, "index.html") if os.path.isdir(p) else p
         if not os.path.exists(target): print("BROKEN", f, href); bad += 1

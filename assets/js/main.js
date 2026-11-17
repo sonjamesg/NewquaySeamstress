@@ -16,73 +16,66 @@
     });
   }
 })();
-/* ---- Scroll-sewn thread + scissors (transform/opacity + paint-only dashoffset; no layout work per frame) ---- */
+/* ---- Scroll-sewn thread + scissors. Stitches are revealed with a stroke-dasharray built per stitch (no SVG mask),
+   the layer is fixed and moved with a transform, scissors are HTML boxes moved with CSS transforms. ---- */
 (function(){
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // Scissors: cut once when the section break scrolls into view
+  // Scissors: cut when the section break is well into view
   var snips = document.querySelectorAll('.snip');
   if (snips.length) {
-    if (reduce || !('IntersectionObserver' in window)) snips.forEach(function(s){ s.classList.add('go'); });
+    if (!('IntersectionObserver' in window)) snips.forEach(function(s){ s.classList.add('go'); });
     else {
-      var so = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('go'); so.unobserve(e.target); } }); }, { rootMargin: '0px 0px -25% 0px' });
+      var so = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('go'); so.unobserve(e.target); } }); }, { rootMargin: '0px 0px -30% 0px', threshold: 0 });
       snips.forEach(function(s){ so.observe(s); });
     }
   }
-  // Thread that sews itself down the page
-  var NS = 'http://www.w3.org/2000/svg', svg, g, maskPath, needle, samples = [], L = 0, docH = 0, ticking = false;
+  var NS = 'http://www.w3.org/2000/svg', svg, g, thread, halo, guide, needle, samples = [], L = 0, docH = 0, ticking = false, lastN = -1, STITCH = 12, GAP = 8;
   function el(n, a){ var e = document.createElementNS(NS, n); for (var k in a) e.setAttribute(k, a[k]); return e; }
+  function dashes(n){ var s = ''; for (var i = 0; i < n; i++) s += STITCH + ' ' + GAP + ' '; return s + '0 ' + (L + 100); }
   function build(){
-    var w = window.innerWidth, mobile = w < 700, wrapW = Math.min(1180, w), gutter = (w - wrapW) / 2;
-    var x0, x1;
-    if (mobile) { x0 = 5; x1 = 15; } else if (gutter > 70) { x0 = Math.max(18, gutter * 0.25); x1 = gutter - 14; } else { x0 = 8; x1 = 22; }
+    var w = window.innerWidth, mobile = w < 700, wrapW = Math.min(1180, w), gutter = (w - wrapW) / 2, x0, x1;
+    if (mobile) { x0 = 6; x1 = 16; STITCH = 9; GAP = 6; }
+    else if (gutter > 80) { x0 = 26; x1 = Math.min(gutter - 16, 150); STITCH = 12; GAP = 8; }
+    else { x0 = 10; x1 = 34; STITCH = 12; GAP = 8; }
     docH = document.documentElement.scrollHeight;
-    var startY = (document.querySelector('.site-header') || {offsetHeight: 80}).offsetHeight + 10;
-    var pts = [], step = mobile ? 260 : 340, i = 0;
-    for (var y = startY; y < docH - 40; y += step, i++) pts.push([i % 2 ? x1 : x0 + (i % 3) * (x1 - x0) * 0.15, y]);
-    pts.push([x0, docH - 40]);
+    var hdr = document.querySelector('.site-header'), startY = (hdr ? hdr.offsetHeight : 80) + 16;
+    var pts = [], step = mobile ? 240 : 300;
+    for (var y = startY, i = 0; y < docH - 60; y += step, i++) pts.push([i % 2 ? x1 : x0, y]);
+    pts.push([x0, docH - 60]);
     var d = 'M' + pts[0][0] + ' ' + pts[0][1];
-    for (var j = 1; j < pts.length; j++) {
-      var p0 = pts[j - 1], p1 = pts[j], my = (p1[1] - p0[1]) / 2;
-      d += ' C' + p0[0] + ' ' + (p0[1] + my) + ' ' + p1[0] + ' ' + (p1[1] - my) + ' ' + p1[0] + ' ' + p1[1];
-    }
+    for (var j = 1; j < pts.length; j++) { var p0 = pts[j-1], p1 = pts[j], my = (p1[1] - p0[1]) / 2;
+      d += ' C' + p0[0] + ' ' + (p0[1] + my) + ' ' + p1[0] + ' ' + (p1[1] - my) + ' ' + p1[0] + ' ' + p1[1]; }
     if (!svg) {
       svg = el('svg', { 'class': 'thread-layer', 'aria-hidden': 'true', focusable: 'false' });
-      var defs = el('defs', {}), mask = el('mask', { id: 'sewn', maskUnits: 'userSpaceOnUse', x: 0, y: 0, width: 400, height: 100000 });
-      maskPath = el('path', { fill: 'none', stroke: '#fff', 'stroke-width': 8, 'stroke-linecap': 'round' });
-      mask.appendChild(maskPath); defs.appendChild(mask); svg.appendChild(defs);
+      var defs = el('defs', {}), lg = el('linearGradient', { id: 'steel', x1: '0', x2: '1', y1: '0', y2: '0' });
+      lg.appendChild(el('stop', { offset: '0', 'stop-color': '#8d8780' })); lg.appendChild(el('stop', { offset: '.45', 'stop-color': '#f2efe9' })); lg.appendChild(el('stop', { offset: '1', 'stop-color': '#6f6a64' }));
+      defs.appendChild(lg); svg.appendChild(defs);
       g = el('g', {});
-      g.appendChild(el('path', { 'class': 'thread-shadow', mask: 'url(#sewn)' }));
-      g.appendChild(el('path', { 'class': 'thread', mask: 'url(#sewn)' }));
+      guide = el('path', { 'class': 'guide' }); halo = el('path', { 'class': 'thread-halo' }); thread = el('path', { 'class': 'thread' });
       needle = el('g', { 'class': 'needle' });
-      needle.innerHTML = '<path d="M0 -26 L1.6 8 L0 12 L-1.6 8 Z" fill="#c9c4bb" stroke="#4a4540" stroke-width=".6"/><ellipse cx="0" cy="-20" rx=".9" ry="3" fill="#2f1d14"/>' +
-        '<path d="M0 -20 C 6 -26, 10 -14, 4 -8" fill="none" stroke="var(--rose)" stroke-width="1.6"/>';
-      g.appendChild(needle); svg.appendChild(g);
+      needle.appendChild(el('path', { 'class': 'needle-thread', d: 'M0 -36 C 12 -46, 20 -24, 8 -14 S -4 2, 0 4' }));
+      needle.appendChild(el('path', { 'class': 'needle-steel', d: 'M-2.6 -44 Q0 -48 2.6 -44 L2.2 14 L0 24 L-2.2 14 Z' }));
+      needle.appendChild(el('ellipse', { 'class': 'needle-eye', cx: 0, cy: -36, rx: 1, ry: 4.2 }));
+      g.appendChild(guide); g.appendChild(halo); g.appendChild(thread); g.appendChild(needle); svg.appendChild(g);
       document.body.appendChild(svg);
     }
-    g.querySelectorAll('.thread,.thread-shadow').forEach(function(p){ p.setAttribute('d', d); });
-    maskPath.setAttribute('d', d);
-    L = maskPath.getTotalLength();
-    maskPath.style.strokeDasharray = L + ' ' + L;
-    samples = [];
-    var N = Math.max(200, Math.round(L / 12));
-    for (var k = 0; k <= N; k++) {
-      var a = maskPath.getPointAtLength(L * k / N), b = maskPath.getPointAtLength(Math.min(L, L * k / N + 2));
-      samples.push([a.x, a.y, Math.atan2(b.y - a.y, b.x - a.x) * 57.2958 - 90]);
-    }
+    [guide, halo, thread].forEach(function(p){ p.setAttribute('d', d); });
+    L = thread.getTotalLength(); lastN = -1;
+    samples = []; var N = Math.max(240, Math.round(L / 10));
+    for (var k = 0; k <= N; k++) { var a = thread.getPointAtLength(L * k / N), b = thread.getPointAtLength(Math.min(L, L * k / N + 3));
+      samples.push([a.x, a.y, Math.atan2(b.y - a.y, b.x - a.x) * 57.29578 - 90, L * k / N]); }
     update();
   }
   function update(){
     ticking = false;
-    var sy = window.scrollY || window.pageYOffset, vh = window.innerHeight;
-    var prog = reduce ? 1 : Math.min(1, Math.max(0, (sy + vh * 0.62) / docH));
-    // keep the leading tip at ~62% of the viewport height: find sample whose y matches
-    var targetY = reduce ? docH : sy + vh * 0.62, lo = 0, hi = samples.length - 1;
+    var sy = window.pageYOffset || document.documentElement.scrollTop, vh = window.innerHeight, targetY = sy + vh * 0.6;
+    var lo = 0, hi = samples.length - 1;
     while (lo < hi) { var mid = (lo + hi) >> 1; if (samples[mid][1] < targetY) lo = mid + 1; else hi = mid; }
-    var s = samples[lo] || samples[samples.length - 1], len = L * lo / (samples.length - 1);
-    maskPath.style.strokeDashoffset = (L - len);
+    var s = samples[lo], n = Math.floor(s[3] / (STITCH + GAP));
+    if (n !== lastN) { var da = dashes(n); thread.setAttribute('stroke-dasharray', da); halo.setAttribute('stroke-dasharray', da); lastN = n; }
     g.setAttribute('transform', 'translate(0 ' + (-sy) + ')');
-    needle.setAttribute('transform', 'translate(' + s[0] + ' ' + s[1] + ') rotate(' + s[2] + ')');
-    needle.style.opacity = (prog >= 1 || lo >= samples.length - 1) ? 0 : 1;
+    needle.setAttribute('transform', 'translate(' + s[0].toFixed(1) + ' ' + s[1].toFixed(1) + ') rotate(' + s[2].toFixed(1) + ')');
+    needle.style.opacity = lo >= samples.length - 1 ? 0 : 1;
   }
   function onScroll(){ if (!ticking) { ticking = true; requestAnimationFrame(update); } }
   function init(){

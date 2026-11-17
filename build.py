@@ -168,10 +168,8 @@ def footer(pre):
             f'<div><h2>Opening hours</h2><ul>{hours}</ul></div></div>'
             f'<div class="foot-base"><span>© {datetime.date.today().year} {E(C["business_name"])} · Newquay, Cornwall</span><span>All prices shown are guide prices, confirmed at drop-off or consultation.</span></div></div></footer>')
 
-SNIP = ('<div class="snip" aria-hidden="true"><div class="cut"></div><svg class="scissors" viewBox="0 0 64 40">'
-  '<g class="blade-b"><path d="M30 20 L62 23 L60 26 Z" fill="#b9b2a6" stroke="#5a544c" stroke-width=".8"/><circle cx="12" cy="29" r="8" fill="none" stroke="#7b2d26" stroke-width="3.4"/><path d="M18 25 L30 20" stroke="#7b2d26" stroke-width="3.4" stroke-linecap="round"/></g>'
-  '<g class="blade-a"><path d="M30 20 L62 17 L60 14 Z" fill="#d8d2c6" stroke="#5a544c" stroke-width=".8"/><circle cx="12" cy="11" r="8" fill="none" stroke="#7b2d26" stroke-width="3.4"/><path d="M18 15 L30 20" stroke="#7b2d26" stroke-width="3.4" stroke-linecap="round"/></g>'
-  '<circle cx="30" cy="20" r="2.2" fill="#a87a3d" stroke="#2f1d14" stroke-width=".8"/></svg></div>')
+SNIP = ('<div class="snip" aria-hidden="true"><div class="cut"></div><div class="scissors">'
+  '<span class="blade b"><svg viewBox="0 0 132 64"><circle cx="20" cy="46" r="12" fill="none" stroke="#7b2d26" stroke-width="5.5"/><path d="M30 41 L56 32" stroke="#7b2d26" stroke-width="6" stroke-linecap="round"/><path d="M54 34 L130 34 L128 31 L56 29 Z" fill="#bdb6ab" stroke="#4a4540" stroke-width="1.2"/><circle cx="56" cy="32" r="3.6" fill="#b08458" stroke="#2f1d14" stroke-width="1.2"/></svg></span><span class="blade a"><svg viewBox="0 0 132 64"><circle cx="20" cy="18" r="12" fill="none" stroke="#7b2d26" stroke-width="5.5"/><path d="M30 23 L56 32" stroke="#7b2d26" stroke-width="6" stroke-linecap="round"/><path d="M54 30 L130 30 L128 33 L56 35 Z" fill="#e9e5de" stroke="#4a4540" stroke-width="1.2"/></svg></span></div></div>')
 def cta(pre):
     return (f'<section class="cta-band felt stitched">{SNIP}<div class="wrap reveal"><p class="script">Bring it in…</p><h2>Ready to love your clothes again?</h2>'
             f'<p>Wash it, bring it in and we will pin it, price it and stitch it. Standard turnaround is {E(C["turnaround_standard"])}, with express {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p>'
@@ -180,6 +178,11 @@ def cta(pre):
 def crumbs(p, pre):
     if not p["slug"]: return ""
     return f'<nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="{pre}">Home</a></li><li aria-current="page">{E(p["crumb"])}</li></ol></nav>'
+
+import hashlib
+def _ver(rel):
+    return hashlib.sha1(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()[:10]
+VER_CSS, VER_JS = _ver("assets/css/style.css"), _ver("assets/js/main.js")
 
 def page_html(p):
     pre = (URL + "/") if p["slug"] == "404" else ("../" if p["slug"] else "")
@@ -209,7 +212,7 @@ def page_html(p):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,700;1,700&family=Special+Elite&display=swap">
 {preload}
-<link rel="stylesheet" href="{pre}assets/css/style.css">
+<link rel="stylesheet" href="{pre}assets/css/style.css?v={VER_CSS}">
 <script type="application/ld+json">{ld}</script>
 </head>
 <body>
@@ -219,7 +222,7 @@ def page_html(p):
 {"" if p.get("nocta") else cta(pre)}
 </main>
 {footer(pre)}
-<script src="{pre}assets/js/main.js" defer></script>
+<script src="{pre}assets/js/main.js?v={VER_JS}" defer></script>
 </body>
 </html>
 '''
