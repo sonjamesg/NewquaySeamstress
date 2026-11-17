@@ -16,6 +16,6 @@
   .cbtn.mail{background:#f8efdc;color:#2f1d14;box-shadow:inset 0 0 0 1.5px #2f1d14,0 2px 8px rgba(47,29,20,.12)}
   .cbtn:active{transform:translateY(1px)}
   .cbtn:hover{color:inherit}
-  body{padding-bottom:calc(var(--bar-h) + env(safe-area-inset-bottom) + 12px)}
+  body{padding-bottom:0}body .site-footer{padding-bottom:calc(1.5rem + var(--bar-h) + env(safe-area-inset-bottom) + 12px)}
 }
 @media (prefers-reduced-motion:reduce){.call-bar{transition:none}}

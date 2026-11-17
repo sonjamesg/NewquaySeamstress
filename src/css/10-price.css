@@ -14,3 +14,4 @@
 .price-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:0 2rem}
 .consult-tag{display:inline-block;font-family:var(--type);font-size:.9rem;background:var(--teal);color:var(--cream);padding:.3rem .8rem;border-radius:3px}
 
+@media (max-width:600px){.price-card{padding:1.3rem 1rem 1rem}.price-card::before{left:1.3rem}.price-card h2,.price-card h3{padding-left:.9rem}.price-table th[scope=row]{padding-left:1.1rem}.price-table th,.price-table td{padding:.55rem .35rem}.price-table{font-size:.97rem}}

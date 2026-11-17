@@ -7,7 +7,7 @@ from .icons import MACHINE, PHONE, MAIL, PIN
 def footer():
     hours = "".join(f"<li>{d}: {E(h)}</li>" for d, h in C["opening_hours_display"] if not is_ph(h))
     last = (f'<div><h2>Opening hours</h2><ul>{hours}</ul></div>' if hours else
-            f'<div><h2>Get in touch</h2><p>{E(C["dropoff_note"])}</p><p class="btn-stack">{call_btn("btn mustard")}{email_btn("btn alt")}</p></div>')
+            f'<div><h2>Get in touch</h2><p>Standard turnaround {E(C["turnaround_standard"])}; express {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p><p class="btn-stack">{call_btn("btn mustard")}{email_btn("btn alt")}</p></div>')
     svc = "".join(f'<li><a href="/{s["slug"]}/">{E(s["nav"])}</a></li>' for s in SERVICES)
     soc = "".join(f'<li><a href="{E(C[k])}" rel="noopener">{lbl}</a></li>' for k, lbl in (("facebook_url", "Facebook"), ("instagram_url", "Instagram"), ("google_business_url", "Google reviews")) if not is_ph(C[k]))
     return (f'<footer class="site-footer"><div class="wrap"><div class="foot-grid"><div>{MACHINE}<p><strong>{E(C["business_name"])}</strong><br>'

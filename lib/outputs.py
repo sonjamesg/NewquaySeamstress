@@ -89,8 +89,8 @@ DirectoryIndex index.html
 ErrorDocument 404 /404.html
 AddDefaultCharset utf-8
 AddType application/manifest+json .webmanifest
-AddType text/markdown;charset=utf-8 .md
-AddType text/plain;charset=utf-8 .txt
+AddType text/markdown .md
+AddType text/plain .txt
 AddType image/avif .avif
 AddType font/woff2 .woff2
 

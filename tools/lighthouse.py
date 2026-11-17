@@ -19,6 +19,6 @@ for form in ("mobile", "desktop"):
         r = json.load(open(out))
         sc = {k: (round(v["score"] * 100) if v["score"] is not None else None) for k, v in r["categories"].items()}
         fails = [a["id"] for a in r["audits"].values() if a.get("score") is not None and a["score"] < 0.9 and a.get("scoreDisplayMode") in ("binary", "numeric", "metricSavings")]
-        m = {k: r["audits"][k]["displayValue"] for k in ("first-contentful-paint", "largest-contentful-paint", "total-blocking-time", "cumulative-layout-shift")}
+        m = {k: r["audits"][k].get("displayValue", "n/a") for k in ("first-contentful-paint", "largest-contentful-paint", "total-blocking-time", "cumulative-layout-shift")}
         rows.append((form, path, sc, m, fails)); print(form, path, sc, m, "below 0.9:", fails, flush=True)
 json.dump(rows, open(os.path.join(ROOT, ".cache", "lighthouse", "summary.json"), "w"), indent=1)

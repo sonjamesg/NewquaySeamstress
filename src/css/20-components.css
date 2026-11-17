@@ -69,3 +69,5 @@
 .foot-base{margin-top:2.5rem;padding-top:1.2rem;border-top:2px dashed rgba(233,220,198,.25);display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;font-size:.85rem;opacity:.85}
 .machine-svg{width:150px;opacity:.9;margin-bottom:.8rem}
 .form .small{font-size:.88rem;margin-top:1rem}
+
+.site-footer address a{display:inline-block;padding:.55rem 0;line-height:1.3}
