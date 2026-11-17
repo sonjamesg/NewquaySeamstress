@@ -2,7 +2,7 @@
 """Static site generator for Newquay Seamstress.
 Edit site.config.json (business details + guide prices) then run:  python3 build.py
 Output goes to ./docs (served by GitHub Pages)."""
-import json, os, shutil, html, datetime
+import json, os, shutil, html, datetime, urllib.parse
 from content import PAGES, FAQS, AREAS
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +13,16 @@ TODAY = datetime.date.today().isoformat()
 E = html.escape
 
 def is_ph(v): return isinstance(v, str) and v.strip().startswith("[")
-def show(v):  return f'<span class="placeholder">{E(v)}</span>' if is_ph(v) else E(v)
+def show(v):  return "" if is_ph(v) else E(v)
+def obf(s): return "".join(f"&#{ord(ch)};" for ch in s)      # light anti-scraper encoding; still works without JS
+def tel_link(cls="", label=None):
+    return f'<a class="{cls}" href="tel:{C["phone_e164"]}">{E(label or C["phone_display"]).replace(" ", "&nbsp;")}</a>'
+def mail_link(cls="", label=None):
+    return f'<a class="{cls}" href="{obf("mailto:" + C["email"])}">{label or obf(C["email"])}</a>'
+def address_html():
+    parts = [E(C["locality"]) + ", " + E(C["region"]), E(C["dropoff_note"])]
+    return "<br>".join(parts)
+def hours_known(): return any(not is_ph(h) for d, h in C["opening_hours_display"])
 
 def money(it):
     if "min" in it: return f"£{it['min']}–£{it['max']}"
@@ -72,8 +81,6 @@ def button_svg(color):
 # ---------- Structured data ----------
 def business():
     addr = {"@type": "PostalAddress", "addressLocality": C["locality"], "addressRegion": C["region"], "addressCountry": C["country"]}
-    if not is_ph(C["street_address"]): addr["streetAddress"] = C["street_address"]
-    if not is_ph(C["postcode"]): addr["postalCode"] = C["postcode"]
     people = [{"@type": "Person", "@id": f'{URL}/about/#{p["name"].split()[0].lower()}', "name": p["name"], "jobTitle": p["role"],
                "description": p["bio"], "worksFor": {"@id": URL + "/#business"},
                "hasOccupation": {"@type": "Occupation", "name": "Tailor" if i == 0 else "Seamstress",
@@ -89,10 +96,9 @@ def business():
          "founder": {"@id": people[0]["@id"]}, "employee": people,
          "knowsAbout": ["Clothing alterations", "Trouser hemming", "Jeans hemming", "Zip replacement", "Clothing repairs", "Curtain shortening"],
          "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Alterations, repairs & tailoring", "itemListElement": catalog}}
-    if not is_ph(C["phone_e164"]): b["telephone"] = C["phone_e164"]
+    if not is_ph(C["phone_e164"]): b["telephone"] = C.get("phone_schema", C["phone_e164"])
     if not is_ph(C["email"]): b["email"] = C["email"]
     if C["opening_hours_schema"]: b["openingHours"] = C["opening_hours_schema"]
-    if not is_ph(C["map_link"]): b["hasMap"] = C["map_link"]
     same = [C[k] for k in ("facebook_url", "instagram_url", "google_business_url") if not is_ph(C[k])]
     if same: b["sameAs"] = same
     return b
@@ -125,8 +131,8 @@ def a_text(a):
 
 def fill(s):
     """Replace {tokens} in content with config values."""
-    rep = {"{phone}": C["phone_display"], "{email}": C["email"], "{express}": str(C["express_surcharge"]), "{std}": C["turnaround_standard"],
-           "{exp}": C["turnaround_express"], "{from}": str(ALL_FROM), "{address}": C["street_address"], "{postcode}": C["postcode"]}
+    rep = {"{phone}": tel_link(), "{email}": mail_link(), "{express}": str(C["express_surcharge"]), "{std}": C["turnaround_standard"],
+           "{exp}": C["turnaround_express"], "{from}": str(ALL_FROM)}
     for k, v in rep.items(): s = s.replace(k, v)
     return s
 
@@ -146,34 +152,53 @@ def header(p, pre):
         if len(n) == 3:
             items.append(f'<li class="has-sub"><a href="{pre}#services" aria-haspopup="true">Services ▾</a><ul>' + "".join(li(s, l) for s, l in n[2]) + "</ul></li>")
         else: items.append(li(n[0], n[1]))
+    items.append(f'<li class="nav-call">{tel_link("", "☎ " + C["phone_display"])}</li>')
     if p["slug"] == "": items[1] = items[1].replace(f'href="{pre}#services"', 'href="#services"')
     brand = (f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home"><img class="brand-logo" src="{pre}assets/img/logo-header.webp" alt="{E(C["business_name"])} logo" width="103" height="62"></a>' if HAS_LOGO else
              f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home">{LOGO}<span><b>{E(C["business_name"])}</b><small>Alterations · Repairs · Tailoring</small></span></a>')
+    # ---- vintage mobile menu panel ----
+    def mli(slug, label, i):
+        cur = ' aria-current="page"' if slug == p["slug"] else ""
+        return f'<li class="mi" style="--i:{i}"><a class="tag" href="{pre}{slug + "/" if slug else ""}"{cur}>{E(label)}</a></li>'
+    mitems, i = [], 0
+    for n in NAV:
+        if len(n) == 3:
+            subs = "".join(f'<li><a href="{pre}{s}/"' + (' aria-current="page"' if s == p["slug"] else "") + f'>{E(l)}</a></li>' for s, l in n[2])
+            mitems.append(f'<li class="mi" style="--i:{i}"><button type="button" class="tag acc" aria-expanded="false" aria-controls="m-services">Services<span class="chev" aria-hidden="true"></span></button>'
+                          f'<ul class="msub" id="m-services" hidden>{subs}</ul></li>')
+        else: mitems.append(mli(n[0], n[1], i))
+        i += 1
+    panel = (f'<div class="mnav" id="mnav" role="dialog" aria-modal="true" aria-label="Site menu" hidden><div class="mnav-inner">'
+             f'<img class="mnav-logo" src="{pre}assets/logo.svg" alt="{E(C["business_name"])}" width="180" height="108" loading="lazy">'
+             f'<nav aria-label="Mobile"><ul class="mlist">{"".join(mitems)}</ul></nav>'
+             f'<div class="mnav-cta" style="--i:{i}">{tel_link("btn mustard", "☎ Call Maxine")}{mail_link("btn alt", "✉ Email")}</div>'
+             f'<p class="mnav-note">{E(C["dropoff_note"])}</p></div></div>')
+    toggle = ('<button type="button" class="nav-toggle" aria-expanded="false" aria-controls="mnav">'
+              '<span class="sr-only">Menu</span><span class="tbtn" aria-hidden="true"><i class="h h1"></i><i class="h h2"></i><i class="h h3"></i><i class="h h4"></i>'
+              '<i class="th t1"></i><i class="th t2"></i></span><span class="tlabel" aria-hidden="true">Menu</span></button>')
     return (f'<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="nav-bar">'
-            f'{brand}'
-            f'<button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav">Menu ✂</button>'
-            f'<nav class="main-nav" id="main-nav" aria-label="Main"><ul>{"".join(items)}</ul></nav></div></header>')
+            f'{brand}{toggle}'
+            f'<nav class="main-nav" id="main-nav" aria-label="Main"><ul>{"".join(items)}</ul></nav></div></header>{panel}')
 
 def footer(pre):
-    hours = "".join(f"<li>{d}: {show(h)}</li>" for d, h in C["opening_hours_display"])
+    hours = "".join(f"<li>{d}: {E(h)}</li>" for d, h in C["opening_hours_display"] if not is_ph(h))
+    last = (f'<div><h2>Opening hours</h2><ul>{hours}</ul></div>' if hours_known() else
+            f'<div><h2>Get in touch</h2><p>{E(C["dropoff_note"])}</p><p class="btn-stack">{tel_link("btn mustard", "☎ Call " + C["phone_display"])}{mail_link("btn alt", "✉ Email Maxine")}</p></div>')
     svc = "".join(f'<li><a href="{pre}{s}/">{E(l)}</a></li>' for s, l in NAV[1][2])
     soc = "".join(f'<li><a href="{E(C[k])}" rel="noopener">{lbl}</a></li>' for k, lbl in (("facebook_url", "Facebook"), ("instagram_url", "Instagram"), ("google_business_url", "Google reviews")) if not is_ph(C[k]))
-    tel = f'<a href="tel:{E(C["phone_e164"])}">{E(C["phone_display"])}</a>' if not is_ph(C["phone_e164"]) else show(C["phone_display"])
-    mail = f'<a href="mailto:{E(C["email"])}">{E(C["email"])}</a>' if not is_ph(C["email"]) else show(C["email"])
     return (f'<footer class="site-footer"><div class="wrap"><div class="foot-grid"><div>{MACHINE}<p><strong>{E(C["business_name"])}</strong><br>'
             f'Mother-and-daughter seamstresses in Newquay, Cornwall. Sylvia brings 50+ years of tailoring, including her career as a tailor at RAF St Mawgan.</p>'
-            f'<address>{show(C["street_address"])}<br>{E(C["locality"])}, {E(C["region"])} {show(C["postcode"])}<br>☎ {tel}<br>✉ {mail}</address></div>'
+            f'<address>{address_html()}<br>☎ {tel_link()}<br>✉ {mail_link()}</address></div>'
             f'<div><h2>Services</h2><ul>{svc}</ul></div>'
             f'<div><h2>Explore</h2><ul><li><a href="{pre}prices/">Guide price list</a></li><li><a href="{pre}about/">Sylvia &amp; Maxine</a></li><li><a href="{pre}areas-we-serve/">Areas we serve</a></li><li><a href="{pre}faq/">FAQ</a></li><li><a href="{pre}contact/">Contact &amp; drop-off</a></li>{soc}</ul></div>'
-            f'<div><h2>Opening hours</h2><ul>{hours}</ul></div></div>'
-            f'<div class="foot-base"><span>© {datetime.date.today().year} {E(C["business_name"])} · Newquay, Cornwall</span><span>All prices shown are guide prices, confirmed at drop-off or consultation.</span></div></div></footer>')
+            f'{last}</div>'
+            f'<div class="foot-base"><span>© {datetime.date.today().year} {E(C["business_name"])} · Newquay, Cornwall</span><span>All prices shown are guide prices, confirmed at drop-off or consultation.</span></div></div></footer>'
+            f'<aside class="call-bar" aria-label="Quick contact">{tel_link("btn mustard", "☎ Call Maxine")}{mail_link("btn alt", "✉ Email")}</aside>')
 
-SNIP = ('<div class="snip" aria-hidden="true"><div class="cut"></div><div class="scissors">'
-  '<span class="blade b"><svg viewBox="0 0 132 64"><circle cx="20" cy="46" r="12" fill="none" stroke="#7b2d26" stroke-width="5.5"/><path d="M30 41 L56 32" stroke="#7b2d26" stroke-width="6" stroke-linecap="round"/><path d="M54 34 L130 34 L128 31 L56 29 Z" fill="#bdb6ab" stroke="#4a4540" stroke-width="1.2"/><circle cx="56" cy="32" r="3.6" fill="#b08458" stroke="#2f1d14" stroke-width="1.2"/></svg></span><span class="blade a"><svg viewBox="0 0 132 64"><circle cx="20" cy="18" r="12" fill="none" stroke="#7b2d26" stroke-width="5.5"/><path d="M30 23 L56 32" stroke="#7b2d26" stroke-width="6" stroke-linecap="round"/><path d="M54 30 L130 30 L128 33 L56 35 Z" fill="#e9e5de" stroke="#4a4540" stroke-width="1.2"/></svg></span></div></div>')
 def cta(pre):
-    return (f'<section class="cta-band felt stitched">{SNIP}<div class="wrap reveal"><p class="script">Bring it in…</p><h2>Ready to love your clothes again?</h2>'
+    return (f'<section class="cta-band felt stitched"><div class="wrap reveal"><p class="script">Bring it in…</p><h2>Ready to love your clothes again?</h2>'
             f'<p>Wash it, bring it in and we will pin it, price it and stitch it. Standard turnaround is {E(C["turnaround_standard"])}, with express {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p>'
-            f'<div class="btn-row"><a class="btn mustard" href="{pre}contact/">Book a drop-off</a><a class="btn alt" href="{pre}prices/">See guide prices</a></div></div></section>')
+            f'<div class="btn-row">{tel_link("btn mustard", "☎ Call " + C["phone_display"])}{mail_link("btn alt", "✉ Email Maxine")}<a class="btn" href="{pre}contact/">Send an enquiry</a></div></div></section>')
 
 def crumbs(p, pre):
     if not p["slug"]: return ""
@@ -182,13 +207,13 @@ def crumbs(p, pre):
 import hashlib
 def _ver(rel):
     return hashlib.sha1(open(os.path.join(ROOT, rel), "rb").read()).hexdigest()[:10]
-VER_CSS, VER_JS = _ver("assets/css/style.css"), _ver("assets/js/main.js")
+VER_CSS, VER_JS, VER_ICO = _ver("assets/css/style.css"), _ver("assets/js/main.js"), _ver("assets/img/favicon.svg")
 
 def page_html(p):
     pre = (URL + "/") if p["slug"] == "404" else ("../" if p["slug"] else "")
     url = URL + "/" + (p["slug"] + "/" if p["slug"] else "")
     img = URL + "/assets/img/og-image.jpg"
-    body = fill(p["body"](pre, globals())).replace("<!--SNIP-->", SNIP)
+    body = fill(p["body"](pre, globals()))
     if HAS_LOGO and not p["slug"]:
         body = body.replace('<p class="eyebrow">Seamstress &amp; tailor', f'<img class="hero-logo" src="{pre}assets/logo.svg" alt="{E(C["business_name"])} vintage sewing machine logo" width="360" height="216" fetchpriority="high"><p class="eyebrow">Seamstress &amp; tailor', 1)
     ld = json.dumps(graph(p), ensure_ascii=False, separators=(",", ":"))
@@ -208,7 +233,7 @@ def page_html(p):
 <meta property="og:title" content="{E(p["title"])}"><meta property="og:description" content="{E(p["desc"])}"><meta property="og:url" content="{url}">
 <meta property="og:image" content="{img}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Antique black and gold sewing machine with thread spools, tape measure and tweed swatches">
 <meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{E(p["title"])}"><meta name="twitter:description" content="{E(p["desc"])}"><meta name="twitter:image" content="{img}">
-<link rel="icon" href="{pre}assets/img/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="{pre}assets/img/logo.png">
+<link rel="icon" href="{pre}assets/img/favicon.ico?v={VER_ICO}" sizes="48x48"><link rel="icon" href="{pre}assets/img/favicon.svg?v={VER_ICO}" type="image/svg+xml"><link rel="apple-touch-icon" href="{pre}assets/img/apple-touch-icon.png?v={VER_ICO}"><link rel="manifest" href="{pre}site.webmanifest?v={VER_ICO}">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&family=Playfair+Display:ital,wght@0,700;1,700&family=Special+Elite&display=swap">
 {preload}
@@ -252,6 +277,40 @@ def build():
     open(os.path.join(OUT, "sitemap.xml"), "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     open(os.path.join(OUT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {URL}/sitemap.xml\n")
     open(os.path.join(OUT, ".nojekyll"), "w").write("")
+    host = urllib.parse.urlparse(URL).netloc
+    if not host.endswith("github.io"):   # Apache (Hostinger): force https + bare domain, real 301s for retired pages, caching
+        rd = "".join(f"RewriteRule ^{o}/?$ /{n} [R=301,L]\n" for o, n in REDIRECTS.items())
+        hd = host.replace(".", "\\.")
+        open(os.path.join(OUT, ".htaccess"), "w").write(f"""Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+RewriteEngine On
+RewriteCond %{{HTTPS}} off [OR]
+RewriteCond %{{HTTP_HOST}} ^www\\. [NC]
+RewriteRule ^(.*)$ https://{host}/$1 [R=301,L]
+RewriteRule ^(default\\.php|site\\.zip)$ - [R=404,L]
+{rd}
+<IfModule mod_headers.c>
+Header always set Strict-Transport-Security "max-age=31536000"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+<FilesMatch "\\.(css|js|svg|webp|png|jpg|ico|woff2)$">
+Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
+<FilesMatch "\\.(html|xml|txt|webmanifest)$">
+Header set Cache-Control "public, max-age=600"
+</FilesMatch>
+</IfModule>
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css application/javascript image/svg+xml application/xml text/plain application/manifest+json
+</IfModule>
+AddType application/manifest+json .webmanifest
+""")
+    base = urllib.parse.urlparse(URL).path.rstrip("/") + "/"
+    open(os.path.join(OUT, "site.webmanifest"), "w").write(json.dumps({"name": C["business_name"], "short_name": "Seamstress", "start_url": base, "scope": base,
+        "display": "standalone", "background_color": "#f4e9d3", "theme_color": "#2f1d14",
+        "icons": [{"src": base + "assets/img/icon-192.png", "sizes": "192x192", "type": "image/png"}, {"src": base + "assets/img/icon-512.png", "sizes": "512x512", "type": "image/png"}]}, indent=1))
+    shutil.copy(os.path.join(ROOT, "assets/img/favicon.ico"), os.path.join(OUT, "favicon.ico"))
     print("built", len(PAGES), "pages ->", OUT)
 
 if __name__ == "__main__":

@@ -1,0 +1,1 @@
+{"domain":"newquayseamstress.com","username":"u562292805","type":"static","document_root":"public_html","deploy":"python3 build.py, then upload docs/ (incl. .htaccess) to public_html"}

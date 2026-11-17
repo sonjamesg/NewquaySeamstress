@@ -1,5 +1,5 @@
 """Self-check: JSON-LD parses, one <h1>, unique titles/descriptions, internal links resolve, every page linked, alt text on images."""
-import glob, json, os, re, sys, urllib.parse
+import html, glob, json, os, re, sys, urllib.parse
 C = json.load(open("site.config.json")); URL = C["site_url"].rstrip("/")
 pages = sorted(glob.glob("docs/**/*.html", recursive=True)); redirects = []; bad = 0; linked = set(); titles = {}; descs = {}
 for f in pages:
@@ -16,7 +16,7 @@ for f in pages:
     for img in re.findall(r"<img[^>]*>", s):
         if not re.search(r'alt="[^"]+"', img): print("missing alt", f); bad += 1
     base = os.path.dirname(f)
-    for href in re.findall(r'href="([^"]+)"', s):
+    for href in [html.unescape(h) for h in re.findall(r'href="([^"]+)"', s)]:
         if href.startswith(("http", "mailto:", "tel:", "#")) and not href.startswith(URL): continue
         h = href.split("#")[0].split("?")[0]
         p = h.replace(URL + "/", "docs/") if h.startswith(URL) else os.path.normpath(os.path.join(base, h))
@@ -28,7 +28,7 @@ for k, v in list(titles.items()) + list(descs.items()):
     if len(v) > 1: print("DUPLICATE", k, v); bad += 1
 for f in pages:
     if f in redirects: continue
-    if os.path.normpath(f) not in linked and "404" not in f: print("ORPHAN", f); bad += 1
+    if os.path.normpath(f) not in linked and "404" not in f and "thank-you" not in f: print("ORPHAN", f); bad += 1
 sm = open("docs/sitemap.xml").read(); print("sitemap urls:", sm.count("<loc>"))
 for r in ("wedding-dress-alterations-cornwall", "suit-tailoring-newquay", "bespoke-dressmaking-newquay"):
     if r in sm: print("RETIRED URL IN SITEMAP", r); bad += 1

@@ -1,17 +1,14 @@
 {
-  "_README": "EDIT THIS FILE to update business details and prices, then run: python3 build.py  (outputs the site into /docs). Any value still in [square brackets] is a placeholder: it shows on the page as-is and is left OUT of the structured data until you fill it in.",
-  "site_url": "https://sonjamesg.github.io/NewquaySeamstress",
+  "_README": "EDIT THIS FILE to update business details and prices, then run: python3 build.py (outputs the site into /docs). Values still in [square brackets] (opening hours, social links) are unknown: they are HIDDEN from the public pages and left out of the structured data until you fill them in. The public address is deliberately just Newquay, Cornwall (drop-off by arrangement).",
+  "site_url": "https://newquayseamstress.com",
   "business_name": "Newquay Seamstress",
   "tagline": "Clothing alterations, repairs & curtain shortening in Newquay, Cornwall",
-  "phone_display": "[Phone number]",
-  "phone_e164": "[Phone number in +44 format, e.g. +447700900000]",
-  "email": "[Email address]",
-  "street_address": "[Street address]",
+  "phone_display": "07807 274898",
+  "phone_e164": "+447807274898",
+  "email": "maxinejennings58@gmail.com",
   "locality": "Newquay",
   "region": "Cornwall",
-  "postcode": "[Postcode]",
   "country": "GB",
-  "map_link": "[Google Maps link]",
   "opening_hours_display": [
     [
       "Monday",
@@ -50,8 +47,8 @@
   "facebook_url": "[Facebook page URL]",
   "instagram_url": "[Instagram URL]",
   "google_business_url": "[Google Business Profile URL]",
-  "form_action": "",
-  "_form_action_note": "Leave empty to make the contact form open the visitor's email app addressed to 'email' above. Or paste a Formspree/Netlify/Basin endpoint URL here.",
+  "form_action": "https://formsubmit.co/maxinejennings58@gmail.com",
+  "_form_action_note": "FormSubmit forwards enquiries to the email with no backend. The FIRST submission triggers a one-time activation email to that inbox, which must be clicked before messages are delivered. After activation FormSubmit offers a random alias URL you can paste here to hide the address.",
   "people": [
     {
       "name": "Sylvia Pauline Tippett",
@@ -178,5 +175,7 @@
   ],
   "express_surcharge": 5,
   "turnaround_standard": "3–5 days",
-  "turnaround_express": "24–48 hours"
+  "turnaround_express": "24–48 hours",
+  "phone_schema": "+44 7807 274898",
+  "dropoff_note": "Drop-off by arrangement. Call or message Maxine to arrange a time."
 }

@@ -37,20 +37,14 @@ p{margin:0 0 1em}
 .brand svg{width:42px;height:42px;flex:none}
 .brand b{font-family:var(--serif);font-size:1.35rem;letter-spacing:.02em;display:block;line-height:1}
 .brand small{font-family:var(--type);font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.8}
-.nav-toggle{display:none;background:none;border:2px dashed rgba(244,236,219,.6);color:var(--cream);font:inherit;font-family:var(--type);padding:.35rem .7rem;border-radius:4px;cursor:pointer}
+
 .main-nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.2rem}
 .main-nav a{display:block;color:var(--cream);text-decoration:none;font-family:var(--type);font-size:.9rem;padding:.45rem .7rem;border-radius:4px;border:1px dashed transparent}
 .main-nav a:hover,.main-nav a[aria-current=page]{border-color:rgba(244,236,219,.6);background:rgba(255,255,255,.06);color:#fff}
 .has-sub{position:relative}
 .has-sub>ul{display:none;position:absolute;left:0;top:100%;min-width:290px;flex-direction:column;background:var(--teal-d);background-image:var(--noise);padding:.5rem;border-radius:6px;box-shadow:0 10px 24px rgba(0,0,0,.3);outline:2px dashed rgba(255,255,255,.35);outline-offset:-7px}
 .has-sub:hover>ul,.has-sub:focus-within>ul{display:flex}
-@media (max-width:960px){
-  .nav-toggle{display:block}
-  .main-nav{display:none;position:absolute;left:0;right:0;top:100%;background:var(--walnut);background-image:var(--noise);padding:1rem 1.25rem 1.5rem;box-shadow:0 12px 20px rgba(0,0,0,.3)}
-  .main-nav.open{display:block}
-  .main-nav ul{flex-direction:column}
-  .has-sub>ul{display:flex;position:static;box-shadow:none;outline:none;background:transparent;padding:0 0 0 1rem;min-width:0}
-}
+@media (max-width:960px){.main-nav{display:none}}
 
 /* ---------- Buttons: swing-tag labels ---------- */
 .btn{position:relative;display:inline-flex;align-items:center;gap:.5rem;font-family:var(--type);font-size:1rem;text-decoration:none;color:var(--cream);background:var(--rose);background-image:var(--noise);padding:.8rem 1.3rem .8rem 2.1rem;border:0;cursor:pointer;clip-path:polygon(14px 0,100% 0,100% 100%,14px 100%,0 50%);transition:transform .25s ease,background-color .25s;box-shadow:inset 0 0 0 4px var(--rose),inset 0 0 0 6px rgba(255,255,255,.55)}
@@ -224,7 +218,7 @@ aside.sidebar{position:sticky;top:110px;display:grid;gap:1.4rem}
 .draw path{stroke-dashoffset:0;animation:sew 3s linear infinite}
 @keyframes sew{to{stroke-dashoffset:-36}}
 .spool-spin{animation:spin 10s linear infinite;transform-origin:center;transform-box:fill-box}
-@media (prefers-reduced-motion:reduce){*:not(.cut):not(.scissors):not(.blade):not(.xstitch),*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){*:not(.xstitch),*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
 @media print{.site-header,.site-footer,.sidebar,.btn-row{display:none}}
 p.script{font-size:2.3rem;margin:0 0 .2rem;transform:rotate(-2deg)}
 @media (max-width:600px){.brand small,.pattern-label{display:none}.brand b{font-size:1.2rem}.hero{padding-top:1.6rem}}
@@ -233,41 +227,89 @@ p.script{font-size:2.3rem;margin:0 0 .2rem;transform:rotate(-2deg)}
 .brand-logo{height:62px;width:auto;display:block}
 .hero-logo{width:min(360px,78%);height:auto;margin:0 0 1.2rem -6px;filter:drop-shadow(0 1px 0 rgba(255,255,255,.5))}
 
-/* ---------- Scroll-sewn thread (stitches revealed one by one; no SVG masks, Safari-safe) ---------- */
+/* ---------- Scroll-sewn seam: straight vertical machine stitch ---------- */
 .thread-layer{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:45;overflow:hidden}
-.thread-layer .thread-halo{fill:none;stroke:#f4e9d3;stroke-opacity:.85;stroke-width:8;stroke-linecap:round}
-.thread-layer .thread{fill:none;stroke:#8f2a22;stroke-width:4.2;stroke-linecap:round}
-.thread-layer .guide{fill:none;stroke:#8f2a22;stroke-opacity:.16;stroke-width:1.5;stroke-dasharray:2 6}
+.thread-layer .guide{stroke:#7b2d26;stroke-opacity:.22;stroke-width:1.6;stroke-dasharray:2 7}
+.thread-layer .thread-halo{stroke:#f4e9d3;stroke-opacity:.9;stroke-width:9;stroke-linecap:round}
+.thread-layer .thread{stroke:#8f2a22;stroke-width:5;stroke-linecap:round}
 .thread-layer .needle-steel{fill:url(#steel);stroke:#3a3632;stroke-width:.9}
 .thread-layer .needle-eye{fill:#2f1d14}
-.thread-layer .needle-thread{fill:none;stroke:#8f2a22;stroke-width:2.4;stroke-linecap:round}
-@media (max-width:700px){.thread-layer .thread{stroke-width:3.2}.thread-layer .thread-halo{stroke-width:6.5}}
-/* ---------- Scissors cutting across section breaks (HTML boxes + CSS transforms; Safari-safe) ---------- */
-.snip-host{position:relative}
-.snip{position:absolute;left:0;right:0;top:-50px;height:100px;overflow:hidden;pointer-events:none;z-index:30}
-.snip .cut{position:absolute;left:0;right:0;top:50%;height:12px;margin-top:-6px;transform:scaleX(0);transform-origin:0 50%;
-  background:conic-gradient(from -45deg at 50% 100%,#2f1d14 0 90deg,transparent 90deg) 0 0/16px 12px repeat-x;opacity:.7;
-  transition:transform 3.4s linear}
-.snip .scissors{position:absolute;left:0;top:50%;width:180px;height:88px;margin-top:-44px;transform:translate3d(-200px,0,0);
-  transition:transform 3.4s linear;filter:drop-shadow(0 3px 3px rgba(31,3,3,.35))}
-.snip .blade{position:absolute;left:0;top:0;width:180px;height:88px;transform-origin:76.4px 44px}
-.snip .blade svg{display:block;width:100%;height:100%}
-.snip.go .cut{transform:scaleX(1)}
-.snip.go .scissors{transform:translate3d(calc(100vw + 10px),0,0)}
-.snip.go .blade.a{animation:chopA .34s ease-in-out 10 alternate}
-.snip.go .blade.b{animation:chopB .34s ease-in-out 10 alternate}
-@keyframes chopA{from{transform:rotate(-20deg)}to{transform:rotate(-1deg)}}
-@keyframes chopB{from{transform:rotate(20deg)}to{transform:rotate(1deg)}}
-@media (max-width:700px){.snip{top:-36px;height:72px}.snip .scissors{width:116px;height:56px;margin-top:-28px}.snip .blade{width:116px;height:56px;transform-origin:49.2px 28px}}
+.thread-layer .needle-thread{fill:none;stroke:#8f2a22;stroke-width:2.6;stroke-linecap:round}
+.thread-layer .needle-bob{animation:needleBob .28s ease-in-out infinite alternate}
+@keyframes needleBob{from{transform:translateY(-7px)}to{transform:translateY(2px)}}
+@media (max-width:700px){.thread-layer .thread{stroke-width:3.6}.thread-layer .thread-halo{stroke-width:7}}
 /* ---------- Buttons that stitch themselves on ---------- */
 .btn-icon .xstitch{fill:none;stroke:#f4e9d3;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:40;stroke-dashoffset:40;transition:stroke-dashoffset 1.1s ease .35s}
 .reveal.in .btn-icon .xstitch{stroke-dashoffset:0}
-/* Reduced motion: a short, gentle version instead of nothing */
-@media (prefers-reduced-motion:reduce){
-  .snip .cut{transition:transform 2s ease-out,opacity 2s ease-out}
-  .snip .scissors{transition:transform 2.6s ease-in-out,opacity .6s}
-  .snip.go .scissors{transform:translate3d(calc(100vw + 10px),0,0)}
-  .snip.go .blade.a{animation:chopA .6s ease-in-out 2 alternate!important}
-  .snip.go .blade.b{animation:chopB .6s ease-in-out 2 alternate!important}
-  .btn-icon .xstitch{transition:stroke-dashoffset 1.2s ease!important}
+/* Reduced motion: the seam still sews with your scroll (you control it); the needle just stops bobbing. */
+@media (prefers-reduced-motion:reduce){.btn-icon .xstitch{transition:stroke-dashoffset 1.2s ease!important}}
+
+/* ---------- Contact buttons ---------- */
+.btn-stack{display:flex;flex-wrap:wrap;gap:.7rem;margin:.9rem 0}
+.honey{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0}
+.nav-call a{background:var(--rose);border-color:rgba(244,233,211,.5)!important}
+.call-bar{display:none}
+@media (max-width:700px){
+  .call-bar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:60;gap:.6rem;padding:.6rem .8rem calc(.6rem + env(safe-area-inset-bottom));background:var(--walnut);background-image:var(--noise);box-shadow:0 -4px 14px rgba(0,0,0,.3)}
+  .call-bar .btn{flex:1;justify-content:center;font-size:1.05rem;padding:.85rem 1rem .85rem 2rem}
+  body{padding-bottom:76px}
 }
+
+/* ---------- Vintage mobile menu ---------- */
+.nav-toggle{display:none;align-items:center;gap:.55rem;background:none;border:0;padding:.2rem;cursor:pointer;color:var(--cream);font-family:var(--type);font-size:.95rem;position:relative;z-index:70}
+.tbtn{position:relative;width:48px;height:48px;border-radius:50%;display:block;background:radial-gradient(circle at 35% 30%,#e7cf9f,#b08458 70%,#8a6439);
+  box-shadow:inset 0 0 0 3px rgba(47,29,20,.25),inset 0 -3px 6px rgba(47,29,20,.35),0 3px 8px rgba(0,0,0,.35);transition:transform .45s cubic-bezier(.3,1.4,.5,1)}
+.tbtn::before{content:"";position:absolute;inset:6px;border-radius:50%;border:1.5px dashed rgba(47,29,20,.55)}
+.tbtn .h{position:absolute;width:7px;height:7px;border-radius:50%;background:#2f1d14;box-shadow:inset 0 1px 1px rgba(255,255,255,.25)}
+.tbtn .h1{left:15px;top:15px}.tbtn .h2{right:15px;top:15px}.tbtn .h3{left:15px;bottom:15px}.tbtn .h4{right:15px;bottom:15px}
+.tbtn .th{position:absolute;left:12px;width:24px;height:3.4px;border-radius:2px;background:#8f2a22;transition:transform .4s cubic-bezier(.5,0,.3,1.3),top .4s}
+.tbtn .t1{top:16.8px}.tbtn .t2{top:27.8px}
+.nav-toggle[aria-expanded=true] .tbtn{transform:rotate(90deg)}
+.nav-toggle[aria-expanded=true] .t1{top:22.3px;transform:rotate(45deg)}
+.nav-toggle[aria-expanded=true] .t2{top:22.3px;transform:rotate(-45deg)}
+.nav-toggle:focus-visible .tbtn{outline:3px solid var(--mustard-l);outline-offset:3px}
+.mnav{display:none}
+@media (max-width:960px){
+  .nav-toggle{display:flex}
+  .mnav{display:block;position:fixed;inset:0;z-index:55;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+    background-color:var(--cream);background-image:var(--noise),radial-gradient(ellipse 60% 40% at 90% 10%,rgba(150,100,45,.14),transparent 70%),var(--weave);
+    padding:calc(var(--hdr,92px) + 10px) 1.1rem 2rem;transform:translateX(100%);visibility:hidden;
+    transition:transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s linear .5s;box-shadow:-10px 0 30px rgba(0,0,0,.25)}
+  .mnav[hidden]{display:block}
+  .mnav.open{transform:none;visibility:visible;transition:transform .5s cubic-bezier(.2,.8,.2,1),visibility 0s}
+  .mnav::before{content:"";position:fixed;top:calc(var(--hdr,92px) + 8px);bottom:10px;left:10px;right:10px;border:2.5px dashed rgba(123,45,38,.55);border-radius:10px;pointer-events:none}
+  .mnav-inner{max-width:520px;margin:0 auto;padding:1rem .6rem}
+  .mnav-logo{display:block;width:170px;height:auto;margin:.4rem auto 1rem}
+  .mlist{list-style:none;margin:0;padding:0}
+  .mi{position:relative;padding:.35rem 0;opacity:0;transform:translateX(30px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.8,.2,1)}
+  .mnav.open .mi,.mnav.open .mnav-cta{opacity:1;transform:none;transition-delay:calc(.12s + var(--i) * .055s)}
+  .mi+.mi::before{content:"";position:absolute;left:8%;right:8%;top:0;border-top:2px dashed rgba(47,29,20,.28)}
+  .tag{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:58px;padding:.7rem 1.2rem .7rem 2.4rem;margin:.25rem 0;
+    font-family:var(--serif);font-weight:700;font-size:1.45rem;line-height:1.1;color:var(--walnut);text-decoration:none;text-align:left;border:0;cursor:pointer;
+    background-color:#efe0c4;background-image:var(--noise),repeating-linear-gradient(0deg,rgba(80,50,25,.05) 0 1px,transparent 1px 3px);
+    clip-path:polygon(16px 0,100% 0,100% 100%,16px 100%,0 50%);position:relative;
+    box-shadow:inset 0 0 0 5px #efe0c4,inset 0 0 0 7px rgba(47,29,20,.0);transition:background-color .2s,transform .2s}
+  .tag::before{content:"";position:absolute;left:18px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--cream);box-shadow:inset 0 1px 2px rgba(0,0,0,.45),0 0 0 2px rgba(47,29,20,.35)}
+  .tag::after{content:"";position:absolute;inset:6px 6px 6px 22px;border:1.6px dashed rgba(47,29,20,.38);border-radius:2px;pointer-events:none}
+  .tag:hover,.tag:focus-visible{background-color:#e7d2ae;color:var(--ink);transform:translateX(3px)}
+  .tag[aria-current=page]{background-color:var(--rose);color:var(--cream)}
+  .tag[aria-current=page]::after{border-color:rgba(244,233,211,.6)}
+  .mi:nth-child(3n+2) .tag:not([aria-current]){background-color:#e9d6b4}
+  .mi:nth-child(3n) .tag:not([aria-current]){background-color:#f2e6cf}
+  .chev{width:12px;height:12px;border-right:3px solid currentColor;border-bottom:3px solid currentColor;transform:rotate(45deg) translateY(-3px);transition:transform .3s}
+  .acc[aria-expanded=true] .chev{transform:rotate(-135deg) translate(-2px,-2px)}
+  .msub{list-style:none;margin:.2rem 0 .4rem 1.4rem;padding:.3rem 0 .3rem 1rem;border-left:2.5px dashed rgba(123,45,38,.5);animation:subIn .35s ease}
+  .msub a{display:block;padding:.75rem .6rem;font-family:var(--body);font-size:1.12rem;font-weight:600;color:var(--walnut);text-decoration:none;border-bottom:1.5px dashed rgba(47,29,20,.2)}
+  .msub a[aria-current=page]{color:var(--rose)}
+  @keyframes subIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  .mnav-cta{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:1.4rem 0 .6rem;opacity:0;transform:translateY(16px);transition:opacity .4s,transform .5s}
+  .mnav-cta .btn{justify-content:center;font-size:1.08rem;padding:1rem .8rem 1rem 2rem}
+  .mnav-note{text-align:center;font-family:var(--type);font-size:.85rem;color:var(--walnut-2);margin:.6rem 0 1.4rem}
+  html.menu-open .call-bar{display:none}
+  html.menu-open .site-header{z-index:60}
+}
+@media (prefers-reduced-motion:reduce){.mnav,.mnav.open{transition:opacity .25s ease!important;transform:none!important}.mnav{opacity:0}.mnav.open{opacity:1}.mi,.mnav-cta{opacity:1!important;transform:none!important;transition:none!important}.tbtn,.tbtn .th{transition:none!important}.msub{animation:none}}
+
+/* seam lane: when there is no wide side gutter, keep content clear of the needle + thread (lane + 8px gap) */
+@media (max-width:1340px){.wrap{padding-left:max(1.25rem,32px)}}
+@media (max-width:700px){.wrap{padding-left:28px;padding-right:1rem}}

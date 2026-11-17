@@ -41,9 +41,9 @@ FAQS = [
     ("Who will be working on my clothes?",
      "Sylvia Pauline Tippett, a tailor with more than 50 years' experience who spent her career as a tailor at RAF St Mawgan, and her daughter Maxine Jennings, who has worked alongside her for over three years. <a href=\"../about/\">Meet them</a>."),
     ("Where are you and which areas do you cover?",
-     "We are based in Newquay ({address}, {postcode}). Customers bring work to us from across Cornwall, including St Columb, Crantock, St Newlyn East, Perranporth, St Austell and Truro. <a href=\"../areas-we-serve/\">See all areas</a>."),
+     "We are based in Newquay, Cornwall, and drop-off is by arrangement, so call or message Maxine on {phone}. Customers bring work to us from across Cornwall, including St Columb, Crantock, St Newlyn East, Perranporth, St Austell and Truro. <a href=\"../areas-we-serve/\">See all areas</a>."),
     ("How do I book?",
-     "Call us on {phone}, email {email} or use the <a href=\"../contact/\">contact form</a> to arrange a drop-off."),
+     "Call or message Maxine on {phone}, email {email} or use the <a href=\"../contact/\">contact form</a> to arrange a drop-off."),
 ]
 
 def faq_block(items, pre):
@@ -61,22 +61,22 @@ def side(pre, g, cats=None, consult=False):
         parts.append(f'<div class="side-card"><h2>Guide prices</h2><ul>{rows}</ul><p style="margin:.8rem 0 0;font-size:.88rem">Guide prices only. Final price confirmed at drop-off.</p><p style="margin:.5rem 0 0"><a href="{pre}prices/">Full guide price list →</a></p></div>')
     if consult:
         parts.append(f'<div class="side-card"><h2>Price on consultation</h2><p>Every gown and suit is different, so we price this work after a fitting and a proper look at the garment or design.</p><p><a href="{pre}contact/">Book a consultation →</a></p></div>')
-    parts.append(f'<div class="side-card rose"><h2>Good to know</h2><ul><li>Clean, freshly washed items only</li><li>Hems pinned at drop-off, or pin at home</li><li>Standard {C["turnaround_standard"]}</li><li>Express {C["turnaround_express"]} +£{C["express_surcharge"]}</li></ul><p style="margin:.8rem 0 0">☎ {g["show"](C["phone_display"])}</p></div>')
+    parts.append(f'<div class="side-card rose"><h2>Good to know</h2><ul><li>Clean, freshly washed items only</li><li>Hems pinned at drop-off, or pin at home</li><li>Standard {C["turnaround_standard"]}</li><li>Express {C["turnaround_express"]} +£{C["express_surcharge"]}</li></ul><p class="btn-stack">{g["tel_link"]("btn mustard", "☎ Call " + C["phone_display"])}{g["mail_link"]("btn alt", "✉ Email Maxine")}</p></div>')
     others = "".join(f'<li><a href="{pre}{s}/">{g["E"](l)}</a></li>' for s, l in g["NAV"][1][2])
     parts.append(f'<div class="side-card"><h2>All services</h2><ul>{others}</ul></div>')
-    return '<aside class="sidebar">' + "".join(parts) + "</aside>"
+    return '<aside class="sidebar" aria-label="Service details">' + "".join(parts) + "</aside>"
 
 def hero(p, pre, eyebrow, lede, consult=False):
     book = "Book a consultation" if consult else "Book a drop-off"
     return (f'<header class="page-hero"><div class="wrap">{{CRUMBS}}<p class="eyebrow">{eyebrow}</p><h1>{p["h1"]}</h1><p class="lede">{lede}</p>'
-            f'<div class="btn-row"><a class="btn" href="{pre}contact/">{book}</a><a class="btn alt" href="{pre}prices/">Guide prices</a></div></div></header>')
+            f'<div class="btn-row">{{CALLBTN}}<a class="btn alt" href="{pre}prices/">Guide prices</a></div></div></header>')
 
 def svc_page(p, eyebrow, lede, prose, cats=None, consult=False):
     def body(pre, g):
-        h = hero(p, pre, eyebrow, lede, consult).replace("{CRUMBS}", g["crumbs"](p, pre))
+        h = hero(p, pre, eyebrow, lede, consult).replace("{CRUMBS}", g["crumbs"](p, pre)).replace("{CALLBTN}", g["tel_link"]("btn", "☎ Call " + g["C"]["phone_display"]))
         tables = "".join(g["price_table"](c, "h2") for c in (cats or []))
         extra = (f'<h2>Guide prices for this service</h2>{g["GUIDE_NOTE"]}{tables}' if cats else "")
-        return (h + f'<section class="linen snip-host"><!--SNIP--><div class="wrap content"><article class="prose">{prose(pre, g)}{extra}</article>{side(pre, g, cats, consult)}</div></section>')
+        return (h + f'<section class="linen"><div class="wrap content"><article class="prose">{prose(pre, g)}{extra}</article>{side(pre, g, cats, consult)}</div></section>')
     return body
 
 # ---------------- HOME ----------------
@@ -101,7 +101,7 @@ def home(pre, g):
 <p class="eyebrow">Seamstress &amp; tailor · Newquay, Cornwall</p>
 <h1><span class="script">Mended with care,</span>Clothing Alterations &amp; Repairs in Newquay</h1>
 <p class="lede">A mother-and-daughter sewing room led by <strong>Sylvia Tippett</strong>, a tailor with <strong>50+ years' experience</strong> who spent her career as a <strong>tailor at RAF St Mawgan</strong>, and her daughter <strong>Maxine</strong>. Hems, zips, repairs, mending and curtains, finished to the standard of a military tailor.</p>
-<div class="btn-row"><a class="btn" href="{pre}contact/">Book a drop-off</a><a class="btn alt" href="{pre}prices/">Guide prices from £{{from}}</a></div>
+<div class="btn-row">{g["tel_link"]("btn", "☎ Call " + C["phone_display"])}{g["mail_link"]("btn mustard", "✉ Email Maxine")}<a class="btn alt" href="{pre}prices/">Guide prices from £{{from}}</a></div>
 <ul class="badges"><li>✂ 50+ years' tailoring</li><li>✪ Ex-RAF St Mawgan tailor</li><li>♥ Mother &amp; daughter</li><li>⏱ Express {E(C["turnaround_express"])}</li></ul>
 </div>
 <figure class="hero-photo reveal in">{img(pre, "hero-machine", "Antique black and gold Singer-style sewing machine on a walnut table with thread spools, tape measure, pincushion and tweed swatches", eager=True)}</figure>
@@ -109,7 +109,7 @@ def home(pre, g):
 <svg class="hero-stitch draw" viewBox="0 0 1200 40" preserveAspectRatio="none" aria-hidden="true"><path d="M0 20 Q 150 0 300 20 T 600 20 T 900 20 T 1200 20"/></svg>
 </section>
 
-<section class="tweed stitched" aria-labelledby="heritage-h"><!--SNIP--><div class="wrap split">
+<section class="tweed stitched" aria-labelledby="heritage-h"><div class="wrap split">
 <figure class="polaroid reveal">{img(pre, "heritage-tailor", "Vintage tailor's workshop with a green wool military-style jacket on a dress form, tape measure and cast-iron sewing machine")}<figcaption>Half a century of tailoring</figcaption></figure>
 <div class="reveal"><p class="eyebrow">Our heritage</p><h2 id="heritage-h">Military-standard tailoring, passed from mother to daughter</h2>
 <p>For more than 50 years Sylvia worked as a tailor for the military at <strong>RAF St Mawgan</strong>, just up the road from Newquay. Uniforms leave no room for "near enough": every hem level, every seam straight, every button where it should be. That is the standard she brings to your jeans, your coats and your curtains.</p>
@@ -117,25 +117,25 @@ def home(pre, g):
 <ul class="stat-row"><li class="stat"><b>{E(s["years"])}</b><span>years Sylvia has tailored</span></li><li class="stat"><b>RAF</b><span>St Mawgan tailor</span></li><li class="stat"><b>{E(m["years"])}</b><span>years Maxine at her side</span></li></ul>
 <a class="btn mustard" href="{pre}about/">Read our story</a></div></div></section>
 
-<section id="services" class="snip-host" aria-labelledby="svc-h"><!--SNIP--><div class="wrap">
+<section id="services" aria-labelledby="svc-h"><div class="wrap">
 <div class="section-head reveal"><p class="script">Pick your fabric</p><h2 id="svc-h">Sewing services in Newquay</h2><p>From a single button to a pair of blackout curtains, with clear guide prices for everything we do.</p></div>
 <div class="swatches">{cards}</div></div></section>
 
-<section class="denim stitched" aria-labelledby="craft-h"><!--SNIP--><div class="wrap split">
+<section class="denim stitched" aria-labelledby="craft-h"><div class="wrap split">
 <div class="reveal"><p class="eyebrow">Everyday clothes, military standard</p><h2 id="craft-h">The small jobs, done properly</h2>
 <p>A jeans hem that keeps its faded factory edge. A coat zip set in dead straight. A split seam re-sewn so it never splits again. Our work is everyday alterations and repairs, and we finish every one with the precision Sylvia learned as a military tailor.</p>
 <ul><li><a href="{pre}trouser-jeans-alterations-newquay/">Trouser &amp; jeans alterations</a></li><li><a href="{pre}zip-replacement-newquay/">Zip &amp; button replacement</a></li><li><a href="{pre}clothing-repairs-newquay/">Clothing repairs &amp; mending</a></li><li><a href="{pre}curtain-alterations-newquay/">Curtain shortening &amp; home</a></li></ul></div>
 <figure class="polaroid reveal" style="transform:rotate(2deg)">{img(pre, "jeans-flatlay", "Tailor's workbench with folded denim jeans chalk-marked for hemming, brass zip, tin of vintage buttons, tape measure and pins on pattern paper")}<figcaption>Chalked, pinned &amp; ready</figcaption></figure>
 </div></section>
 
-<section class="linen snip-host" aria-labelledby="price-h"><!--SNIP--><div class="wrap split">
+<section class="linen" aria-labelledby="price-h"><div class="wrap split">
 <div class="reveal"><p class="eyebrow">Honest pricing</p><h2 id="price-h">Popular guide prices</h2>
 <p>We publish our guide prices so you know roughly what to expect before you walk in. The full list covers trousers and jeans, zips and fastenings, repairs and curtains.</p>
 {g["GUIDE_NOTE"]}<a class="btn" href="{pre}prices/">See every guide price</a></div>
 <div class="price-card pinked-bottom reveal"><h3>Most asked-for <small class="eyebrow">guide prices</small></h3><table class="price-table"><caption class="sr-only">Popular guide prices</caption><tbody>{teaser}</tbody></table></div>
 </div></section>
 
-<section class="snip-host" aria-labelledby="how-h"><!--SNIP--><div class="wrap">
+<section aria-labelledby="how-h"><div class="wrap">
 <div class="section-head reveal"><p class="script">Simple as that</p><h2 id="how-h">How it works</h2></div>
 <ul class="notions">
 <li class="reveal spin-hover">{g["button_svg"]("#7b2d26")}<div><h3>1. Wash it</h3><p>Clean items only, so please freshly wash garments and curtains before drop-off.</p></div></li>
@@ -144,13 +144,13 @@ def home(pre, g):
 <li class="reveal spin-hover">{g["button_svg"]("#6a2420")}<div><h3>Need it fast?</h3><p>Express service in {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p></div></li>
 </ul></div></section>
 
-<section class="linen snip-host" aria-labelledby="areas-h"><!--SNIP--><div class="wrap">
+<section class="linen" aria-labelledby="areas-h"><div class="wrap">
 <div class="section-head reveal"><p class="eyebrow">Around Newquay</p><h2 id="areas-h">Your local seamstress across mid &amp; north Cornwall</h2>
 <p>Based in Newquay, with customers from St Columb, St Mawgan, Crantock, St Newlyn East, Perranporth, St Austell, Truro and beyond. <a href="{pre}areas-we-serve/">See the areas we serve</a>.</p></div>
 <ul class="badges" style="justify-content:center">{"".join(f'<li>📍 {_h.escape(n)}</li>' for n, d in AREAS)}</ul>
 </div></section>
 
-<section class="snip-host" aria-labelledby="faq-h"><!--SNIP--><div class="wrap" style="max-width:860px">
+<section aria-labelledby="faq-h"><div class="wrap" style="max-width:860px">
 <div class="section-head reveal"><p class="script">You asked</p><h2 id="faq-h">Alterations questions</h2></div>
 {faqs}<p style="text-align:center;margin-top:1.5rem"><a class="btn alt" href="{pre}faq/">All FAQs</a></p></div></section>
 '''
@@ -280,7 +280,7 @@ def areas_page(p):
 <div class="prose" style="max-width:820px;margin:3rem auto 0">
 <h2>Alterations near you, without the trip to the city</h2>
 <p>Whether you are in St Columb Major, Crantock, Perranporth or further afield in St Austell or Truro, every service is available from our Newquay base: <a href="{pre}trouser-jeans-alterations-newquay/">trouser and jeans alterations</a>, <a href="{pre}zip-replacement-newquay/">zip replacement</a>, <a href="{pre}clothing-repairs-newquay/">repairs and mending</a> and <a href="{pre}curtain-alterations-newquay/">curtain shortening</a>.</p>
-<p>Drop-off address: {{address}}, Newquay {{postcode}}. Call {{phone}} to arrange a time.</p></div></div></section>'''
+<p>Drop-off is by arrangement in Newquay. Call or message Maxine on {{phone}}, or email {{email}}, to arrange a time.</p></div></div></section>'''
     return body
 
 def faq_page(p):
@@ -293,27 +293,31 @@ def faq_page(p):
 def contact_page(p):
     def body(pre, g):
         C, show, E = g["C"], g["show"], g["E"]
-        hours = "".join(f"<tr><th scope=\"row\">{d}</th><td>{show(h)}</td></tr>" for d, h in C["opening_hours_display"])
+        hours = "".join(f"<tr><th scope=\"row\">{d}</th><td>{E(h)}</td></tr>" for d, h in C["opening_hours_display"] if not g["is_ph"](h))
+        hours_block = f'<h3>Opening hours</h3><table class="hours"><tbody>{hours}</tbody></table>' if g["hours_known"]() else ""
         opts = "".join(f"<option>{g['E'](l)}</option>" for s, l in g["NAV"][1][2]) + "<option>Something else</option>"
-        action = f' action="{E(C["form_action"])}" method="post"' if C["form_action"] else ""
-        tel = f'<a href="tel:{E(C["phone_e164"])}">{E(C["phone_display"])}</a>' if not g["is_ph"](C["phone_e164"]) else show(C["phone_display"])
-        mail = f'<a href="mailto:{E(C["email"])}">{E(C["email"])}</a>' if not g["is_ph"](C["email"]) else show(C["email"])
-        mp = f'<p><a href="{E(C["map_link"])}" rel="noopener">Open in Google Maps →</a></p>' if not g["is_ph"](C["map_link"]) else f'<p>{show(C["map_link"])}</p>'
+        fa = C["form_action"]
+        action = f' action="{E(fa)}" method="POST"' if fa else ""
+        hidden = (f'<input type="hidden" name="_subject" value="New enquiry – Newquay Seamstress website">'
+                  f'<input type="hidden" name="_template" value="table">'
+                  f'<input type="hidden" name="_next" value="{g["URL"]}/thank-you/">'
+                  f'<input type="text" name="_honey" class="honey" tabindex="-1" autocomplete="off" aria-hidden="true">') if "formsubmit.co" in fa else ""
+        mp = ""
         h = (f'<header class="page-hero"><div class="wrap">{g["crumbs"](p, pre)}<p class="eyebrow">Contact &amp; drop-off</p><h1>{p["h1"]}</h1>'
              f'<p class="lede">Call, email or send an enquiry to arrange a drop-off. Please bring items freshly washed.</p></div></header>')
         return h + f'''<section class="linen"><div class="wrap contact-grid">
-<div class="side-card"><h2>Find us</h2><address style="font-style:normal">{show(C["street_address"])}<br>{E(C["locality"])}, {E(C["region"])}<br>{show(C["postcode"])}</address>
-<p>☎ {tel}<br>✉ {mail}</p>{mp}
-<h3>Opening hours</h3><table class="hours"><tbody>{hours}</tbody></table></div>
-<form class="form price-card" id="enquiry" data-email="{E(C["email"])}"{action}>
+<div class="side-card"><h2>Find us</h2><address style="font-style:normal">{g["address_html"]()}</address>
+<p class="btn-stack">{g["tel_link"]("btn mustard", "☎ Call " + C["phone_display"])}{g["mail_link"]("btn alt", "✉ Email Maxine")}</p>
+<p>☎ {g["tel_link"]()}<br>✉ {g["mail_link"]()}</p>{mp}{hours_block}</div>
+<form class="form price-card" id="enquiry"{action}>{hidden}
 <h2>Send an enquiry</h2>
 <label for="f-name">Your name</label><input id="f-name" type="text" name="name" autocomplete="name" required>
 <label for="f-phone">Phone</label><input id="f-phone" name="phone" type="tel" autocomplete="tel">
-<label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email">
+<label for="f-email">Email</label><input id="f-email" name="email" type="email" autocomplete="email" required>
 <label for="f-service">What do you need?</label><select id="f-service" name="service">{opts}</select>
 <label for="f-msg">Tell us about the garment</label><textarea id="f-msg" name="message" rows="5" required></textarea>
 <div class="btn-row"><button class="btn" type="submit">Send enquiry</button></div>
-<p style="font-size:.88rem;margin-top:1rem">Prices are guide prices, confirmed at drop-off or consultation.</p>
+<p style="font-size:.88rem;margin-top:1rem">Your message goes straight to Maxine by email. Prices are guide prices, confirmed at drop-off.</p>
 </form></div></section>'''
     return body
 
@@ -380,6 +384,14 @@ _ct = {"slug": "contact", "crumb": "Contact", "title": "Contact Newquay Seamstre
        "desc": "Book a drop-off or a fitting with Newquay Seamstress. Clothing alterations, zips, repairs and curtain shortening in Newquay, Cornwall.",
        "h1": "Contact &amp; Book a Drop-off", "pagetype": "ContactPage", "prio": "0.8", "nocta": True}
 _ct["body"] = contact_page(_ct)
+def thanks_page(p):
+    def body(pre, g):
+        return (f'<section class="page-hero"><div class="wrap" style="text-align:center"><p class="script">Thank you!</p><h1>{p["h1"]}</h1>'
+                f'<p class="lede" style="margin:0 auto 1.5rem">Maxine will get back to you as soon as she can. If it is urgent, call or message her on {{phone}}.</p>'
+                f'<div class="btn-row" style="justify-content:center"><a class="btn" href="{pre}">Back to the home page</a><a class="btn alt" href="{pre}prices/">Guide prices</a></div></div></section>')
+    return body
+_ty = {"slug": "thank-you", "crumb": "Thank you", "title": "Thank you | Newquay Seamstress", "desc": "Thanks for your enquiry.", "h1": "Your enquiry has been sent", "noindex": True, "nocta": True}
+_ty["body"] = thanks_page(_ty)
 _nf = {"slug": "404", "crumb": "Not found", "title": "Page not found | Newquay Seamstress", "desc": "Page not found.", "h1": "", "noindex": True}
 _nf["body"] = notfound(_nf)
-PAGES += [_pr, _ab, _ar, _fq, _ct, _nf]
+PAGES += [_pr, _ab, _ar, _fq, _ct, _ty, _nf]
