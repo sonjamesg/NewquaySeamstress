@@ -1,3 +1,4 @@
-research/
+node_modules/
+.cache/
 __pycache__/
 *.pyc

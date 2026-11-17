@@ -1,0 +1,9 @@
+/* Self-hosted, subset WOFF2 fonts (latin). {{font:file}} is replaced with a cache-busted URL at build time. */
+@font-face{font-family:"Lora";src:url({{font:lora-var.woff2}}) format("woff2");font-weight:400 700;font-style:normal;font-display:swap}
+@font-face{font-family:"Lora";src:url({{font:lora-italic.woff2}}) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Playfair Display";src:url({{font:playfair-display-700.woff2}}) format("woff2");font-weight:700;font-style:normal;font-display:swap}
+@font-face{font-family:"Pinyon Script";src:url({{font:pinyon-script.woff2}}) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Special Elite";src:url({{font:special-elite.woff2}}) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+/* metric-matched fallbacks so the swap does not shift the layout */
+@font-face{font-family:"Lora Fallback";src:local("Georgia");size-adjust:104%;ascent-override:96%;descent-override:26%}
+@font-face{font-family:"Playfair Fallback";src:local("Georgia");size-adjust:108%;ascent-override:100%;descent-override:24%}

@@ -1,6 +1,6 @@
 """Self-check: JSON-LD parses, one <h1>, unique titles/descriptions, internal links resolve, every page linked, alt text on images."""
 import html, glob, json, os, re, sys, urllib.parse
-C = json.load(open("site.config.json")); URL = C["site_url"].rstrip("/")
+C = json.load(open("data/site.config.json")); URL = C["site_url"].rstrip("/")
 pages = sorted(glob.glob("docs/**/*.html", recursive=True)); redirects = []; bad = 0; linked = set(); titles = {}; descs = {}
 for f in pages:
     s = open(f, encoding="utf-8").read()
@@ -19,7 +19,7 @@ for f in pages:
     for href in [html.unescape(h) for h in re.findall(r'href="([^"]+)"', s)]:
         if href.startswith(("http", "mailto:", "tel:", "#")) and not href.startswith(URL): continue
         h = href.split("#")[0].split("?")[0]
-        p = h.replace(URL + "/", "docs/") if h.startswith(URL) else os.path.normpath(os.path.join(base, h))
+        p = h.replace(URL + "/", "docs/") if h.startswith(URL) else ("docs" + h if h.startswith("/") else os.path.normpath(os.path.join(base, h)))
         p = urllib.parse.unquote(p)
         target = os.path.join(p, "index.html") if os.path.isdir(p) else p
         if not os.path.exists(target): print("BROKEN", f, href); bad += 1

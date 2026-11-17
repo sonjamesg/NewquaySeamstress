@@ -1,0 +1,111 @@
+{
+  "_README": "Guide prices. Each category becomes a price table (on /prices/ and its service page) and an OfferCatalog in the schema. Item fields: name, price (fixed guide price) OR min+max (range), optional from:true (shows 'From £x'), optional note.",
+  "categories": [
+    {
+      "id": "trousers",
+      "name": "Trousers & Jeans",
+      "items": [
+        {
+          "name": "Standard Jeans Hem",
+          "price": 10
+        },
+        {
+          "name": "Jeans Hem (Keeping Original Factory Hem)",
+          "price": 15
+        },
+        {
+          "name": "Trouser Hem (Plain or Blind Stitch)",
+          "price": 12
+        },
+        {
+          "name": "Lined Trouser Hem / Turn-Ups",
+          "price": 16
+        },
+        {
+          "name": "Take In Waist / Taper Legs (Standard Trousers)",
+          "price": 16
+        },
+        {
+          "name": "Take In Waist / Taper Legs (Jeans)",
+          "price": 22
+        }
+      ]
+    },
+    {
+      "id": "zips",
+      "name": "Zips & Fastenings",
+      "items": [
+        {
+          "name": "Trouser / Skirt Zip Replacement",
+          "price": 15,
+          "note": "Includes standard zip"
+        },
+        {
+          "name": "Jeans Zip Replacement",
+          "price": 18,
+          "note": "Includes heavy-duty metal zip"
+        },
+        {
+          "name": "Coat / Jacket Zip Replacement",
+          "price": 25,
+          "from": true,
+          "note": "Plus cost of specialist zip"
+        },
+        {
+          "name": "Button Replacement / Restitching",
+          "price": 3,
+          "note": "Or 3 for £7"
+        },
+        {
+          "name": "New Machine Buttonhole",
+          "price": 4
+        }
+      ]
+    },
+    {
+      "id": "repairs",
+      "name": "General Repairs & Mending",
+      "items": [
+        {
+          "name": "Minimum Repair Charge",
+          "price": 8
+        },
+        {
+          "name": "Split Seam Restitching",
+          "min": 8,
+          "max": 12
+        },
+        {
+          "name": "Small Tear / Patch Repair",
+          "min": 10,
+          "max": 15
+        },
+        {
+          "name": "Pocket Bag Repair / Replacement",
+          "min": 10,
+          "max": 14
+        }
+      ]
+    },
+    {
+      "id": "curtains",
+      "name": "Curtains & Home",
+      "items": [
+        {
+          "name": "Shorten Curtains (Unlined, per pair)",
+          "price": 20,
+          "from": true
+        },
+        {
+          "name": "Shorten Curtains (Lined / Blackout, per pair)",
+          "price": 32,
+          "from": true
+        },
+        {
+          "name": "Cushion Cover Zip Replacement",
+          "price": 12
+        }
+      ]
+    }
+  ]
+}

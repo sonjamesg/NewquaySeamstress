@@ -1,0 +1,29 @@
+# Newquay Seamstress
+
+> Clothing alterations, repairs & curtain shortening in Newquay, Cornwall. A mother-and-daughter seamstress business: Sylvia Pauline Tippett (Tailor & founder, 50+ years); Maxine Jennings (Seamstress, 3+ years). Sylvia was a tailor at RAF St Mawgan. Guide prices from £3; final prices are confirmed at drop-off. Phone 07807 274898, email maxinejennings58@gmail.com. Based in Newquay, Cornwall (drop-off by arrangement).
+
+Every page below is also available as HTML at the same path without the .md suffix. Services are only those listed here: trouser and jeans alterations, zips and buttons, repairs and mending, curtains and soft furnishings.
+
+## Services
+
+- [Trouser & Jeans Alterations](https://newquayseamstress.com/trouser-jeans-alterations-newquay.md): Jeans and trouser hems in Newquay, guide prices from £10. Original-hem jeans, blind-stitch, turn-ups, waists taken in & legs tapered by a 50-year tailor.
+- [Zip & Button Replacement](https://newquayseamstress.com/zip-replacement-newquay.md): Zip replacement in Newquay: trouser & skirt zips guide £15, jeans £18, coats from £25. Buttons from £3. Guide prices, confirmed at drop-off.
+- [Clothing Repairs & Mending](https://newquayseamstress.com/clothing-repairs-newquay.md): Clothing repairs in Newquay: split seams, small tears, patches and pocket bags mended by an ex-military tailor. Guide prices from £8, confirmed at drop-off.
+- [Curtain Shortening & Home](https://newquayseamstress.com/curtain-alterations-newquay.md): Curtains shortened in Newquay: unlined from £20 a pair, lined & blackout from £32 (guide prices). Cushion zips replaced, guide £12. Ideal for holiday lets.
+
+## Prices & booking
+
+- [Guide Prices](https://newquayseamstress.com/prices.md): Guide prices for alterations in Newquay: jeans hems from £10, trouser hems £12, zips from £15, repairs from £8, curtains from £20, confirmed at drop-off.
+- [Contact](https://newquayseamstress.com/contact.md): Book a drop-off or a fitting with Newquay Seamstress. Clothing alterations, zips, repairs and curtain shortening in Newquay, Cornwall.
+- [FAQ](https://newquayseamstress.com/faq.md): Answers on alteration guide prices, 3–5 day turnaround, 24–48 hour express, washing, pinning hems, zips and curtain shortening in Newquay.
+
+## About
+
+- [Home](https://newquayseamstress.com/index.md): Newquay seamstress & ex-RAF St Mawgan tailor, 50+ years' experience. Hems, zips, repairs & curtains, guide prices from £3.
+- [Our Story](https://newquayseamstress.com/about.md): Meet Sylvia Tippett, a tailor at RAF St Mawgan for over 50 years, and her daughter Maxine Jennings: Newquay's mother-and-daughter seamstresses.
+- [Areas We Serve](https://newquayseamstress.com/areas-we-serve.md): Clothing alterations & repairs from our Newquay base for St Columb, St Mawgan, Crantock, St Newlyn East, Perranporth, St Austell, Truro & Padstow.
+
+## Optional
+
+- [Full content](https://newquayseamstress.com/llms-full.txt): every page and the full guide price list as plain text
+- [Sitemap](https://newquayseamstress.com/sitemap.xml): all indexable URLs

@@ -1,0 +1,7 @@
+{
+  "name": "newquay-seamstress",
+  "private": true,
+  "description": "Build tools for the Newquay Seamstress static site (run `python3 build.py`).",
+  "scripts": {"build": "python3 build.py", "lighthouse": "python3 tools/lighthouse.py"},
+  "devDependencies": {"esbuild": "^0.25.0", "svgo": "^4.0.0", "lighthouse": "^12.0.0"}
+}

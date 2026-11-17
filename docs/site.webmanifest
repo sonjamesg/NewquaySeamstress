@@ -1,8 +1,10 @@
 {
  "name": "Newquay Seamstress",
  "short_name": "Seamstress",
+ "description": "Clothing alterations, repairs & curtain shortening in Newquay, Cornwall",
  "start_url": "/",
  "scope": "/",
+ "lang": "en-GB",
  "display": "standalone",
  "background_color": "#f4e9d3",
  "theme_color": "#2f1d14",
@@ -15,7 +17,8 @@
   {
    "src": "/assets/img/icon-512.png",
    "sizes": "512x512",
-   "type": "image/png"
+   "type": "image/png",
+   "purpose": "any maskable"
   }
  ]
 }

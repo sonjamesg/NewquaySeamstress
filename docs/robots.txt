@@ -1,4 +1,8 @@
+# Newquay Seamstress – https://newquayseamstress.com
 User-agent: *
 Allow: /
+
+# LLM-friendly overview of this site (llmstxt.org): https://newquayseamstress.com/llms.txt
+# Full plain-text content and guide prices: https://newquayseamstress.com/llms-full.txt
 
 Sitemap: https://newquayseamstress.com/sitemap.xml

@@ -1,0 +1,18 @@
+/* Fabric textures: tweed, denim, felt, linen, stitched borders, lace, pinking shears. */
+.tweed{color:var(--cream);background-color:#5a3d2a;background-image:var(--noise),repeating-linear-gradient(45deg,rgba(0,0,0,.18) 0 2px,transparent 2px 4px),repeating-linear-gradient(-45deg,rgba(255,240,210,.1) 0 2px,transparent 2px 5px),repeating-linear-gradient(0deg,rgba(168,122,61,.12) 0 1px,transparent 1px 26px),repeating-linear-gradient(90deg,rgba(123,45,38,.14) 0 1px,transparent 1px 26px)}
+.tweed h2,.tweed h3{color:#f6e8c8}.tweed a{color:var(--mustard-l)}
+.tweed .eyebrow{color:var(--mustard-l)}
+.denim{color:#eef1f6;background-color:var(--denim);background-image:var(--noise),repeating-linear-gradient(-55deg,rgba(255,255,255,.07) 0 1px,transparent 1px 4px),repeating-linear-gradient(35deg,rgba(0,0,0,.12) 0 1px,transparent 1px 3px)}
+.denim h2,.denim h3{color:#fff}.denim a{color:var(--mustard-l)}.denim .eyebrow{color:var(--mustard-l)}
+.felt{background-color:var(--felt);color:#f6e6d8;background-image:var(--noise),var(--noise)}
+.felt h2,.felt h3{color:#fbefe0}
+.linen{background-color:var(--linen);background-image:var(--noise),var(--weave)}
+/* stitched inner border for textured panels */
+.stitched{position:relative}
+.stitched::before{content:"";position:absolute;inset:12px;border:var(--stitch);border-radius:4px;pointer-events:none;opacity:.6}
+/* lace edge */
+.lace-top{position:relative}
+.lace-top::before{content:"";position:absolute;left:0;right:0;top:-14px;height:15px;background:radial-gradient(circle at 10px 15px,transparent 6px,var(--lace,#f1e5c9) 6.5px 10px,transparent 10.5px) 0 0/20px 15px repeat-x,radial-gradient(circle at 10px 15px,var(--lace,#f1e5c9) 2px,transparent 2.5px) 0 0/20px 15px repeat-x}
+/* pinking-shear edges */
+.pinked{--z:9px;-webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/calc(2*var(--z)) 100%,conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) 50%/calc(2*var(--z)) 51% top no-repeat;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/calc(2*var(--z)) 100%}
+

@@ -1,0 +1,81 @@
+{
+  "_README": "The four services. Order = order in the nav, footer and home page cards. slug must match a file in content/pages/. cats = which data/prices.json categories are shown on that page.",
+  "services": [
+    {
+      "slug": "trouser-jeans-alterations-newquay",
+      "nav": "Trouser & jeans alterations",
+      "card_title": "Trouser & jeans alterations",
+      "card_blurb": "Hems, original-hem jeans, turn-ups, waists taken in and legs tapered.",
+      "fabric": "f-denim",
+      "pin": "#8a5c36",
+      "cats": [
+        "trousers"
+      ]
+    },
+    {
+      "slug": "zip-replacement-newquay",
+      "nav": "Zip & button replacement",
+      "card_title": "Zips & buttons",
+      "card_blurb": "Trouser, skirt, jeans and coat zips, buttons restitched and new buttonholes.",
+      "fabric": "f-mustard",
+      "pin": "#7b2d26",
+      "cats": [
+        "zips"
+      ]
+    },
+    {
+      "slug": "clothing-repairs-newquay",
+      "nav": "Clothing repairs & mending",
+      "card_title": "Repairs & mending",
+      "card_blurb": "Split seams, small tears, patches and pocket bags, mended neatly.",
+      "fabric": "f-tweed",
+      "pin": "#a87a3d",
+      "cats": [
+        "repairs"
+      ]
+    },
+    {
+      "slug": "curtain-alterations-newquay",
+      "nav": "Curtain shortening & home",
+      "card_title": "Curtains & home",
+      "card_blurb": "Unlined, lined and blackout curtains shortened, cushion zips replaced.",
+      "fabric": "f-velvet",
+      "pin": "#7b2d26",
+      "cats": [
+        "curtains"
+      ]
+    }
+  ],
+  "price_list_card": {
+    "title": "The full price list",
+    "blurb": "Every guide price in one place, plus express and drop-off notes.",
+    "fabric": "f-paper",
+    "pin": "#8a5c36"
+  },
+  "home_price_teaser": [
+    [
+      "trousers",
+      0
+    ],
+    [
+      "trousers",
+      2
+    ],
+    [
+      "zips",
+      0
+    ],
+    [
+      "zips",
+      1
+    ],
+    [
+      "repairs",
+      1
+    ],
+    [
+      "curtains",
+      0
+    ]
+  ]
+}

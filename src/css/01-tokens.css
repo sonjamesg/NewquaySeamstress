@@ -1,0 +1,13 @@
+/* Design tokens: palette sampled from the logo, fonts, textures used everywhere. */
+/* Newquay Seamstress — vintage haberdashery theme. Core colours sampled from the logo: parchment #f4e9d3, tea #e5cfb0, sepia stain #cdaa82, espresso ink #2f1d14, deep oxblood-black #1f0303.
+   Textures are CSS/SVG generated (no image weight). */
+:root{
+  --cream:#f4e9d3; --linen:#e5cfb0; --paper:#e5cfb0; --walnut:#2f1d14; --walnut-2:#6e4a2f;
+  --ink:#1f0303; --rose:#7b2d26; --rose-d:#5c1d19; --mustard:#cdaa82; --mustard-l:#e5cfb0;
+  --teal:#8a5c36; --teal-d:#4a2b1b; --denim:#4d3322; --felt:#6a2420; --sage:#7d8b6a;
+  --serif:"Playfair Display","Playfair Fallback",Georgia,"Times New Roman",serif;
+  --body:"Lora","Lora Fallback",Georgia,serif; --type:"Special Elite","Courier New",monospace; --script:"Pinyon Script","Snell Roundhand",cursive;
+  --stitch:2px dashed rgba(255,248,235,.75); --radius:6px; --max:1180px;
+  --noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .3 0 0 0 0 .22 0 0 0 0 .15 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --weave:repeating-linear-gradient(0deg,rgba(80,50,25,.05) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(80,50,25,.045) 0 1px,transparent 1px 3px);
+}

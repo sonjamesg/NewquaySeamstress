@@ -1,0 +1,46 @@
+[
+ {
+  "q": "How much do alterations cost in Newquay?",
+  "a": "Our <a href=\"/prices/\">guide prices</a> start from £3 for a button and £10 for a standard jeans hem. Trouser hems are a guide £12, zip replacements from £15 and curtain shortening from £20 per pair. These are guide prices only: the final price is confirmed at drop-off or consultation, depending on the garment and the work needed."
+ },
+ {
+  "q": "How long do alterations take?",
+  "a": "Standard turnaround is {{std}}. If you need it sooner, our express service turns most jobs around in {{exp}} for an extra £{{express}}."
+ },
+ {
+  "q": "Do my clothes or curtains need to be washed first?",
+  "a": "Yes please. We can only work on clean items, so garments and curtains must be freshly washed before drop-off. It keeps the workroom (and everyone else's clothes) clean and means hems are measured on fabric that has already shrunk."
+ },
+ {
+  "q": "Can you pin my hem when I drop off?",
+  "a": "Yes. We are happy to pin hems at drop-off, so bring the shoes you will wear with trousers or a dress. Alternatively you can pin or measure your preferred length at home and we will work to that."
+ },
+ {
+  "q": "Can you shorten jeans and keep the original hem?",
+  "a": "Yes. A jeans hem keeping the original factory hem (so the worn, faded edge stays) has a guide price of £15. A standard jeans hem is a guide £10."
+ },
+ {
+  "q": "Do zip replacements include the zip?",
+  "a": "Trouser and skirt zip replacement (guide £15) includes a standard zip, and jeans zip replacement (guide £18) includes a heavy-duty metal zip. Coat and jacket zips start from £25 plus the cost of the specialist zip, as these vary in length and type."
+ },
+ {
+  "q": "Is there a minimum charge?",
+  "a": "Yes, the minimum repair charge is £8. Buttons are the exception: replacing or restitching a button is a guide £3, or 3 for £7."
+ },
+ {
+  "q": "Do you shorten curtains, including lined and blackout curtains?",
+  "a": "Yes. Shortening unlined curtains starts from £20 per pair and lined or blackout curtains from £32 per pair. We also replace cushion cover zips (guide £12)."
+ },
+ {
+  "q": "Who will be working on my clothes?",
+  "a": "Sylvia Pauline Tippett, a tailor with more than 50 years' experience who spent her career as a tailor at RAF St Mawgan, and her daughter Maxine Jennings, who has worked alongside her for over three years. <a href=\"/about/\">Meet them</a>."
+ },
+ {
+  "q": "Where are you and which areas do you cover?",
+  "a": "We are based in Newquay, Cornwall, and drop-off is by arrangement, so call or message Maxine on {{phone}}. Customers bring work to us from across Cornwall, including St Columb, Crantock, St Newlyn East, Perranporth, St Austell and Truro. <a href=\"/areas-we-serve/\">See all areas</a>."
+ },
+ {
+  "q": "How do I book?",
+  "a": "Call or message Maxine on {{phone}}, email {{email}} or use the <a href=\"/contact/\">contact form</a> to arrange a drop-off."
+ }
+]

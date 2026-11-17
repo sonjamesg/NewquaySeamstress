@@ -1,0 +1,50 @@
+[
+ {
+  "name": "Newquay",
+  "blurb": "Our home town. Drop-offs from Pentire, Porth, Lusty Glaze, Trenance, Tretherras and the town centre."
+ },
+ {
+  "name": "St Columb Major",
+  "blurb": "A short drive inland along the A39 corridor, ideal for hems and zips on the way into town."
+ },
+ {
+  "name": "St Mawgan & Mawgan Porth",
+  "blurb": "Close to RAF St Mawgan, where Sylvia spent her career as a military tailor."
+ },
+ {
+  "name": "Crantock",
+  "blurb": "Just across the Gannel. Popular for jeans hems and curtain shortening for holiday lets."
+ },
+ {
+  "name": "St Newlyn East",
+  "blurb": "A few miles south of Newquay, an easy hop for repairs and alterations."
+ },
+ {
+  "name": "Quintrell Downs",
+  "blurb": "On the doorstep. Bring trousers, jeans and coats with broken zips."
+ },
+ {
+  "name": "Perranporth",
+  "blurb": "Wetsuit-and-jeans country. Zip replacement and seam repairs are our everyday work."
+ },
+ {
+  "name": "St Austell",
+  "blurb": "Worth the drive in from mid Cornwall for jeans hems, zips and curtain shortening."
+ },
+ {
+  "name": "Truro",
+  "blurb": "Cornwall's city. Customers bring trousers, coats and curtains to us for alterations and repairs."
+ },
+ {
+  "name": "Padstow & Wadebridge",
+  "blurb": "Up the coast. Holiday-let curtains and cushion zips are a speciality worth the trip."
+ },
+ {
+  "name": "Indian Queens & St Dennis",
+  "blurb": "A quick run down the A30 for everyday alterations and mending."
+ },
+ {
+  "name": "Holywell Bay & Cubert",
+  "blurb": "Small jobs welcome, from a single button to a full set of trouser hems."
+ }
+]

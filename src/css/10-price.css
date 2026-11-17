@@ -1,0 +1,16 @@
+/* Guide price tickets and the guide-price note. */
+/* ---------- Price list: pattern-paper tickets ---------- */
+.price-card{position:relative;background-color:#f5e9cc;background-image:var(--noise),linear-gradient(rgba(110,74,47,.08) 1px,transparent 1px);background-size:auto,100% 2.1rem;padding:1.6rem 1.6rem 1.2rem;border-radius:3px;box-shadow:0 10px 22px rgba(50,30,15,.18);margin-bottom:2rem}
+.price-card::before{content:"";position:absolute;left:2.4rem;top:0;bottom:0;border-left:2px solid rgba(123,45,38,.3)}
+.price-card h2,.price-card h3{padding-left:1.4rem}
+.price-table{width:100%;border-collapse:collapse;font-size:1rem}
+.price-table caption{text-align:left}
+.price-table th,.price-table td{padding:.6rem .5rem;text-align:left;vertical-align:top;border-bottom:1.5px dashed rgba(74,49,34,.25)}
+.price-table th[scope=row]{font-weight:600;padding-left:1.9rem}
+.price-table td.p{text-align:right;white-space:nowrap;font-family:var(--type);font-size:1.05rem;color:var(--rose-d)}
+.price-table .note{display:block;font-weight:400;font-size:.88rem;font-style:italic;color:var(--walnut-2)}
+.guide-note{display:flex;gap:.8rem;align-items:flex-start;background:#f8ecd0;border-left:6px solid var(--mustard);padding:1rem 1.2rem;margin:1.2rem 0 2rem;border-radius:0 4px 4px 0;font-size:.98rem;box-shadow:0 4px 10px rgba(50,30,15,.08)}
+.guide-note strong{font-family:var(--type);font-weight:400;color:var(--rose-d)}
+.price-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:0 2rem}
+.consult-tag{display:inline-block;font-family:var(--type);font-size:.9rem;background:var(--teal);color:var(--cream);padding:.3rem .8rem;border-radius:3px}
+
