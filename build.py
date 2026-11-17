@@ -139,6 +139,7 @@ NAV = [("", "Home"), ("services", "Services", [
           ("bespoke-dressmaking-newquay", "Bespoke dressmaking & ball gowns")]),
        ("prices", "Guide prices"), ("about", "Our story"), ("areas-we-serve", "Areas"), ("faq", "FAQ"), ("contact", "Contact")]
 
+HAS_LOGO = os.path.exists(os.path.join(ROOT, "assets", "logo-light.svg"))
 def header(p, pre):
     def li(slug, label):
         cur = ' aria-current="page"' if slug == p["slug"] else ""
@@ -149,8 +150,10 @@ def header(p, pre):
             items.append(f'<li class="has-sub"><a href="{pre}#services" aria-haspopup="true">Services ▾</a><ul>' + "".join(li(s, l) for s, l in n[2]) + "</ul></li>")
         else: items.append(li(n[0], n[1]))
     if p["slug"] == "": items[1] = items[1].replace(f'href="{pre}#services"', 'href="#services"')
+    brand = (f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home"><img class="brand-logo" src="{pre}assets/logo-light.svg" alt="{E(C["business_name"])} logo" width="150" height="64"></a>' if HAS_LOGO else
+             f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home">{LOGO}<span><b>{E(C["business_name"])}</b><small>Alterations · Repairs · Tailoring</small></span></a>')
     return (f'<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="nav-bar">'
-            f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home">{LOGO}<span><b>{E(C["business_name"])}</b><small>Alterations · Repairs · Tailoring</small></span></a>'
+            f'{brand}'
             f'<button type="button" class="nav-toggle" aria-expanded="false" aria-controls="main-nav">Menu ✂</button>'
             f'<nav class="main-nav" id="main-nav" aria-label="Main"><ul>{"".join(items)}</ul></nav></div></header>')
 
@@ -182,6 +185,8 @@ def page_html(p):
     url = URL + "/" + (p["slug"] + "/" if p["slug"] else "")
     img = URL + "/assets/img/og-image.jpg"
     body = fill(p["body"](pre, globals()))
+    if HAS_LOGO and not p["slug"]:
+        body = body.replace('<p class="eyebrow">Seamstress &amp; tailor', f'<img class="hero-logo" src="{pre}assets/logo.svg" alt="{E(C["business_name"])} vintage sewing machine logo" width="320" height="290" fetchpriority="high"><p class="eyebrow">Seamstress &amp; tailor', 1)
     ld = json.dumps(graph(p), ensure_ascii=False, separators=(",", ":"))
     preload = f'<link rel="preload" as="image" href="{pre}assets/img/hero-machine-1024.webp" imagesrcset="{pre}assets/img/hero-machine-600.webp 600w, {pre}assets/img/hero-machine-1024.webp 1024w" imagesizes="(max-width:900px) 92vw, 540px">' if not p["slug"] else ""
     return f'''<!DOCTYPE html>

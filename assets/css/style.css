@@ -229,3 +229,5 @@ p.script{font-size:2.3rem;margin:0 0 .2rem;transform:rotate(-2deg)}
 @media (max-width:600px){.brand small,.pattern-label{display:none}.brand b{font-size:1.2rem}.hero{padding-top:1.6rem}}
 
 .hero{background-image:var(--noise),radial-gradient(ellipse 30% 40% at 85% 30%,rgba(140,90,40,.13),transparent 70%),radial-gradient(ellipse 25% 30% at 8% 85%,rgba(140,90,40,.12),transparent 70%),linear-gradient(rgba(123,45,38,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(123,45,38,.10) 1px,transparent 1px),linear-gradient(rgba(123,45,38,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(123,45,38,.05) 1px,transparent 1px);background-size:auto,auto,auto,60px 60px,60px 60px,12px 12px,12px 12px}
+.brand-logo{height:56px;width:auto}
+.hero-logo{width:min(300px,70%);height:auto;margin:0 0 1rem;filter:drop-shadow(0 1px 0 rgba(255,255,255,.4))}
