@@ -66,7 +66,8 @@ LOGO = ('<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="
 def button_svg(color):
     return (f'<svg class="btn-icon" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="{color}"/><circle cx="30" cy="30" r="27" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="2"/>'
             '<circle cx="30" cy="30" r="20" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-dasharray="3 3"/>'
-            '<circle cx="24" cy="24" r="3.2" fill="rgba(0,0,0,.45)"/><circle cx="36" cy="24" r="3.2" fill="rgba(0,0,0,.45)"/><circle cx="24" cy="36" r="3.2" fill="rgba(0,0,0,.45)"/><circle cx="36" cy="36" r="3.2" fill="rgba(0,0,0,.45)"/></svg>')
+            '<circle cx="24" cy="24" r="3.2" fill="rgba(0,0,0,.45)"/><circle cx="36" cy="24" r="3.2" fill="rgba(0,0,0,.45)"/><circle cx="24" cy="36" r="3.2" fill="rgba(0,0,0,.45)"/><circle cx="36" cy="36" r="3.2" fill="rgba(0,0,0,.45)"/>'
+            '<path class="xstitch" d="M24 24L36 36M36 24L24 36"/></svg>')
 
 # ---------- Structured data ----------
 def business():
@@ -78,17 +79,15 @@ def business():
                "hasOccupation": {"@type": "Occupation", "name": "Tailor" if i == 0 else "Seamstress",
                                  "experienceRequirements": f'{p["years"]} years'} } for i, p in enumerate(C["people"])]
     people[1]["relatedTo"] = {"@id": people[0]["@id"]}
-    people[0]["knowsAbout"] = ["Tailoring", "Military uniform tailoring", "Wedding dresses", "Ball gowns", "Suits", "Dressmaking", "Clothing alterations"]
+    people[0]["knowsAbout"] = ["Tailoring", "Military uniform tailoring", "Clothing alterations", "Clothing repairs"]
     catalog = [{"@type": "OfferCatalog", "name": c["name"] + " (guide prices)", "itemListElement": [offer(i) for i in c["items"]]} for c in C["prices"]]
-    catalog.append({"@type": "OfferCatalog", "name": "Price on consultation", "itemListElement": [
-        {"@type": "Offer", "description": "Price on consultation", "itemOffered": {"@type": "Service", "name": n}} for n in C["consultation_services"]]})
     b = {"@type": ["ProfessionalService", "LocalBusiness"], "@id": URL + "/#business", "name": C["business_name"],
-         "description": "Mother-and-daughter seamstress and tailoring service in Newquay, Cornwall: clothing alterations, trouser and jeans hems, zip replacement, repairs, curtain shortening, plus wedding dress alterations, suits and bespoke dressmaking on consultation.",
+         "description": "Mother-and-daughter seamstress and tailoring service in Newquay, Cornwall: clothing alterations, trouser and jeans hems, zip replacement, repairs, curtain shortening.",
          "url": URL + "/", "image": URL + "/assets/img/og-image.jpg", "logo": URL + "/assets/img/logo.png",
          "address": addr, "priceRange": f"Guide prices from £{ALL_FROM}", "currenciesAccepted": "GBP",
          "areaServed": [{"@type": "City", "name": a[0]} for a in AREAS],
          "founder": {"@id": people[0]["@id"]}, "employee": people,
-         "knowsAbout": ["Clothing alterations", "Trouser hemming", "Jeans hemming", "Zip replacement", "Clothing repairs", "Curtain shortening", "Wedding dress alterations", "Suit tailoring", "Bespoke dressmaking", "Ball gowns"],
+         "knowsAbout": ["Clothing alterations", "Trouser hemming", "Jeans hemming", "Zip replacement", "Clothing repairs", "Curtain shortening"],
          "hasOfferCatalog": {"@type": "OfferCatalog", "name": "Alterations, repairs & tailoring", "itemListElement": catalog}}
     if not is_ph(C["phone_e164"]): b["telephone"] = C["phone_e164"]
     if not is_ph(C["email"]): b["email"] = C["email"]
@@ -134,9 +133,7 @@ def fill(s):
 # ---------- Layout ----------
 NAV = [("", "Home"), ("services", "Services", [
           ("trouser-jeans-alterations-newquay", "Trouser & jeans alterations"), ("zip-replacement-newquay", "Zip & button replacement"),
-          ("clothing-repairs-newquay", "Clothing repairs & mending"), ("curtain-alterations-newquay", "Curtain shortening & home"),
-          ("wedding-dress-alterations-cornwall", "Wedding & bridal alterations"), ("suit-tailoring-newquay", "Suit tailoring & formal wear"),
-          ("bespoke-dressmaking-newquay", "Bespoke dressmaking & ball gowns")]),
+          ("clothing-repairs-newquay", "Clothing repairs & mending"), ("curtain-alterations-newquay", "Curtain shortening & home")]),
        ("prices", "Guide prices"), ("about", "Our story"), ("areas-we-serve", "Areas"), ("faq", "FAQ"), ("contact", "Contact")]
 
 HAS_LOGO = os.path.exists(os.path.join(ROOT, "assets", "logo-light.svg"))
@@ -150,7 +147,7 @@ def header(p, pre):
             items.append(f'<li class="has-sub"><a href="{pre}#services" aria-haspopup="true">Services ▾</a><ul>' + "".join(li(s, l) for s, l in n[2]) + "</ul></li>")
         else: items.append(li(n[0], n[1]))
     if p["slug"] == "": items[1] = items[1].replace(f'href="{pre}#services"', 'href="#services"')
-    brand = (f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home"><img class="brand-logo" src="{pre}assets/logo-light.svg" alt="{E(C["business_name"])} logo" width="150" height="64"></a>' if HAS_LOGO else
+    brand = (f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home"><img class="brand-logo" src="{pre}assets/img/logo-header.webp" alt="{E(C["business_name"])} logo" width="103" height="62"></a>' if HAS_LOGO else
              f'<a class="brand" href="{pre or "./"}" aria-label="{E(C["business_name"])} home">{LOGO}<span><b>{E(C["business_name"])}</b><small>Alterations · Repairs · Tailoring</small></span></a>')
     return (f'<a class="skip" href="#main">Skip to content</a><header class="site-header"><div class="nav-bar">'
             f'{brand}'
@@ -171,8 +168,12 @@ def footer(pre):
             f'<div><h2>Opening hours</h2><ul>{hours}</ul></div></div>'
             f'<div class="foot-base"><span>© {datetime.date.today().year} {E(C["business_name"])} · Newquay, Cornwall</span><span>All prices shown are guide prices, confirmed at drop-off or consultation.</span></div></div></footer>')
 
+SNIP = ('<div class="snip" aria-hidden="true"><div class="cut"></div><svg class="scissors" viewBox="0 0 64 40">'
+  '<g class="blade-b"><path d="M30 20 L62 23 L60 26 Z" fill="#b9b2a6" stroke="#5a544c" stroke-width=".8"/><circle cx="12" cy="29" r="8" fill="none" stroke="#7b2d26" stroke-width="3.4"/><path d="M18 25 L30 20" stroke="#7b2d26" stroke-width="3.4" stroke-linecap="round"/></g>'
+  '<g class="blade-a"><path d="M30 20 L62 17 L60 14 Z" fill="#d8d2c6" stroke="#5a544c" stroke-width=".8"/><circle cx="12" cy="11" r="8" fill="none" stroke="#7b2d26" stroke-width="3.4"/><path d="M18 15 L30 20" stroke="#7b2d26" stroke-width="3.4" stroke-linecap="round"/></g>'
+  '<circle cx="30" cy="20" r="2.2" fill="#a87a3d" stroke="#2f1d14" stroke-width=".8"/></svg></div>')
 def cta(pre):
-    return (f'<section class="cta-band felt stitched"><div class="wrap reveal"><p class="script">Bring it in…</p><h2>Ready to love your clothes again?</h2>'
+    return (f'<section class="cta-band felt stitched">{SNIP}<div class="wrap reveal"><p class="script">Bring it in…</p><h2>Ready to love your clothes again?</h2>'
             f'<p>Wash it, bring it in and we will pin it, price it and stitch it. Standard turnaround is {E(C["turnaround_standard"])}, with express {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p>'
             f'<div class="btn-row"><a class="btn mustard" href="{pre}contact/">Book a drop-off</a><a class="btn alt" href="{pre}prices/">See guide prices</a></div></div></section>')
 
@@ -184,9 +185,9 @@ def page_html(p):
     pre = (URL + "/") if p["slug"] == "404" else ("../" if p["slug"] else "")
     url = URL + "/" + (p["slug"] + "/" if p["slug"] else "")
     img = URL + "/assets/img/og-image.jpg"
-    body = fill(p["body"](pre, globals()))
+    body = fill(p["body"](pre, globals())).replace("<!--SNIP-->", SNIP)
     if HAS_LOGO and not p["slug"]:
-        body = body.replace('<p class="eyebrow">Seamstress &amp; tailor', f'<img class="hero-logo" src="{pre}assets/logo.svg" alt="{E(C["business_name"])} vintage sewing machine logo" width="320" height="290" fetchpriority="high"><p class="eyebrow">Seamstress &amp; tailor', 1)
+        body = body.replace('<p class="eyebrow">Seamstress &amp; tailor', f'<img class="hero-logo" src="{pre}assets/logo.svg" alt="{E(C["business_name"])} vintage sewing machine logo" width="360" height="216" fetchpriority="high"><p class="eyebrow">Seamstress &amp; tailor', 1)
     ld = json.dumps(graph(p), ensure_ascii=False, separators=(",", ":"))
     preload = f'<link rel="preload" as="image" href="{pre}assets/img/hero-machine-1024.webp" imagesrcset="{pre}assets/img/hero-machine-600.webp 600w, {pre}assets/img/hero-machine-1024.webp 1024w" imagesizes="(max-width:900px) 92vw, 540px">' if not p["slug"] else ""
     return f'''<!DOCTYPE html>
@@ -223,6 +224,8 @@ def page_html(p):
 </html>
 '''
 
+REDIRECTS = {"wedding-dress-alterations-cornwall": "about/", "suit-tailoring-newquay": "about/", "bespoke-dressmaking-newquay": "about/"}
+
 def build():
     if os.path.exists(OUT): shutil.rmtree(OUT)
     os.makedirs(OUT)
@@ -233,6 +236,14 @@ def build():
         fn = "404.html" if p["slug"] == "404" else "index.html"
         if p["slug"] == "404": p = dict(p, slug="404")
         open(os.path.join(d, fn), "w", encoding="utf-8").write(page_html(p))
+    # retired URLs (services no longer offered) -> permanent client-side redirect, noindex, excluded from sitemap
+    for old, new in REDIRECTS.items():
+        os.makedirs(os.path.join(OUT, old), exist_ok=True)
+        tgt = f"{URL}/{new}"
+        open(os.path.join(OUT, old, "index.html"), "w", encoding="utf-8").write(
+            f'<!DOCTYPE html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n<title>Page moved | {E(C["business_name"])}</title>\n'
+            f'<meta name="robots" content="noindex, follow">\n<link rel="canonical" href="{tgt}">\n<meta http-equiv="refresh" content="0; url={tgt}">\n'
+            f'<script>location.replace("{tgt}")</script>\n</head>\n<body>\n<p>This page has moved. <a href="{tgt}">Continue to {E(C["business_name"])}</a>.</p>\n</body>\n</html>\n')
     urls = "".join(f'<url><loc>{URL}/{p["slug"] + "/" if p["slug"] else ""}</loc><lastmod>{TODAY}</lastmod><priority>{p.get("prio", "0.8")}</priority></url>'
                    for p in PAGES if not p.get("noindex"))
     open(os.path.join(OUT, "sitemap.xml"), "w").write(f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')

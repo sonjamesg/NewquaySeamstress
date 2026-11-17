@@ -58,7 +58,7 @@
       "short": "Sylvia",
       "role": "Tailor & founder",
       "years": "50+",
-      "bio": "Sylvia has more than 50 years' experience as a tailor. She was a tailor at RAF St Mawgan, working for the military for over 50 years, where uniforms had to be precise, hard-wearing and immaculately finished, every single time. Alongside that career she has made ball gowns, suits and wedding dresses, and she brings the same exacting standard to every garment that comes through the door."
+      "bio": "Sylvia has more than 50 years' experience as a tailor. She was a tailor at RAF St Mawgan, working for the military for over 50 years, where uniforms had to be precise, hard-wearing and immaculately finished, every single time."
     },
     {
       "name": "Maxine Jennings",
@@ -178,10 +178,5 @@
   ],
   "express_surcharge": 5,
   "turnaround_standard": "3–5 days",
-  "turnaround_express": "24–48 hours",
-  "consultation_services": [
-    "Wedding & Bridal Alterations",
-    "Bespoke Dressmaking & Ball Gowns",
-    "Suit Tailoring & Alterations"
-  ]
+  "turnaround_express": "24–48 hours"
 }

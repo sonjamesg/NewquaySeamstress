@@ -1,9 +1,10 @@
 """Self-check: JSON-LD parses, one <h1>, unique titles/descriptions, internal links resolve, every page linked, alt text on images."""
 import glob, json, os, re, sys, urllib.parse
 C = json.load(open("site.config.json")); URL = C["site_url"].rstrip("/")
-pages = sorted(glob.glob("docs/**/*.html", recursive=True)); bad = 0; linked = set(); titles = {}; descs = {}
+pages = sorted(glob.glob("docs/**/*.html", recursive=True)); redirects = []; bad = 0; linked = set(); titles = {}; descs = {}
 for f in pages:
     s = open(f, encoding="utf-8").read()
+    if 'http-equiv="refresh"' in s: redirects.append(f); continue
     for blob in re.findall(r'<script type="application/ld\+json">(.*?)</script>', s, re.S):
         try:
             d = json.loads(blob); types = [n["@type"] for n in d["@graph"]]
@@ -25,6 +26,9 @@ for f in pages:
 for k, v in list(titles.items()) + list(descs.items()):
     if len(v) > 1: print("DUPLICATE", k, v); bad += 1
 for f in pages:
+    if f in redirects: continue
     if os.path.normpath(f) not in linked and "404" not in f: print("ORPHAN", f); bad += 1
 sm = open("docs/sitemap.xml").read(); print("sitemap urls:", sm.count("<loc>"))
-print("pages:", len(pages), "problems:", bad); sys.exit(1 if bad else 0)
+for r in ("wedding-dress-alterations-cornwall", "suit-tailoring-newquay", "bespoke-dressmaking-newquay"):
+    if r in sm: print("RETIRED URL IN SITEMAP", r); bad += 1
+print("pages:", len(pages) - len(redirects), "redirect stubs:", len(redirects), "problems:", bad); sys.exit(1 if bad else 0)

@@ -1,57 +1,77 @@
 #!/usr/bin/env python3
-"""Vectorise the raster logo into clean SVGs (transparent background).
-Usage: python3 tools/vectorise_logo.py path/to/logo.jpg
-Writes assets/logo.svg (sampled ink colour), assets/logo-light.svg (cream, for dark backgrounds),
-assets/img/favicon.svg + assets/img/logo.png (sewing machine only), deliverables/newquay-seamstress-logo.svg,
-and prints the colours sampled from the image."""
-import sys, os, re, shutil
+"""Vectorise the raster logo into clean, transparent SVGs.
+Usage: python3 tools/vectorise_logo.py source/logo-original.jpg [--threshold 110] [--scale 4] [--turd 40]
+- Upscales the greyscale image (keeps the thin inline highlight in the lettering), thresholds the dark ink,
+- removes parchment stains / burnt border by keeping only ink components that don't touch the outer margin,
+- traces with vtracer (binary, spline) and fills with the ink colour sampled from the image.
+Writes assets/logo.svg, assets/logo-light.svg, assets/img/favicon.svg, assets/img/logo.png,
+deliverables/newquay-seamstress-logo.svg and prints the sampled palette."""
+import sys, os, re, shutil, argparse, json
 import numpy as np, vtracer
 from PIL import Image, ImageFilter
+from scipy import ndimage
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-src = sys.argv[1]
-im = Image.open(src).convert("RGB"); W, H = im.size
-a = np.asarray(im).astype(float); g = a.mean(axis=2)
-# Otsu threshold, then bias darker so tea stains are excluded
-hist = np.bincount(g.astype(int).ravel(), minlength=256); tot = g.size; sb = 0; wb = 0; best = (0, 0); sm = (np.arange(256) * hist).sum()
-for t in range(256):
-    wb += hist[t]
-    if not wb or wb == tot: continue
-    sb += t * hist[t]; mb = sb / wb; mf = (sm - sb) / (tot - wb); v = wb * (tot - wb) * (mb - mf) ** 2
-    if v > best[0]: best = (v, t)
-T = best[1] * 0.85
-mask = g < T
-ink = np.median(a[mask], axis=0).astype(int); paper = np.median(a[~mask], axis=0).astype(int)
-dark_paper = np.percentile(a[~mask], 15, axis=0).astype(int)
+ap = argparse.ArgumentParser(); ap.add_argument("src"); ap.add_argument("--threshold", type=float, default=110)
+ap.add_argument("--scale", type=int, default=3); ap.add_argument("--turd", type=int, default=40); ap.add_argument("--margin", type=float, default=0.06)
+ap.add_argument("--light", default="#f4e9d3")
+A = ap.parse_args()
+im = Image.open(A.src).convert("RGB"); W, H = im.size; a = np.asarray(im).astype(int); g0 = a.mean(axis=2)
 hexc = lambda c: "#%02x%02x%02x" % tuple(int(x) for x in c)
-print("threshold", round(T), "ink", hexc(ink), "parchment", hexc(paper), "tea-stain", hexc(dark_paper))
-m = Image.fromarray(np.where(mask, 0, 255).astype("uint8")).filter(ImageFilter.MedianFilter(5))
-m = m.resize((W * 2, H * 2), Image.LANCZOS).filter(ImageFilter.GaussianBlur(1.2)).point(lambda v: 0 if v < 128 else 255)
-bb = Image.eval(m, lambda v: 255 - v).getbbox(); pad = 24
-m = m.crop((max(bb[0] - pad, 0), max(bb[1] - pad, 0), min(bb[2] + pad, m.size[0]), min(bb[3] + pad, m.size[1])))
-tmp = "/tmp/_logo_mask.png"; m.convert("RGB").save(tmp)
-def trace(png, out, color):
-    vtracer.convert_image_to_svg_py(png, out, colormode="binary", mode="spline", filter_speckle=12, corner_threshold=60, length_threshold=4.0, splice_threshold=45, path_precision=2)
-    s = open(out).read()
+
+S = A.scale
+g = np.asarray(im.convert("L").resize((W * S, H * S), Image.LANCZOS).filter(ImageFilter.GaussianBlur(S * 0.35))).astype(float)
+mask = g < A.threshold
+lab, n = ndimage.label(mask)
+objs = ndimage.find_objects(lab); sizes = ndimage.sum(mask, lab, range(1, n + 1))
+mx, my = int(W * S * A.margin), int(H * S * A.margin)
+keep = np.zeros(n + 1, bool)
+for i, sl in enumerate(objs, 1):
+    y0, y1, x0, x1 = sl[0].start, sl[0].stop, sl[1].start, sl[1].stop
+    if y0 < my or x0 < mx or y1 > H * S - my or x1 > W * S - mx: continue   # burnt border / edge stains
+    if sizes[i - 1] < A.turd * S: continue                                  # specks
+    keep[i] = True
+clean = keep[lab]
+bb_y, bb_x = np.where(clean); p = 12 * S
+y0, y1, x0, x1 = max(bb_y.min() - p, 0), bb_y.max() + p, max(bb_x.min() - p, 0), bb_x.max() + p
+clean = clean[y0:y1, x0:x1]
+print(f"components kept {keep.sum()} of {n}; crop {x1-x0}x{y1-y0}")
+
+# palette sampling (original resolution)
+inkpix = a[(g0 > 10) & (g0 < 40)]; core = a[(g0 > 15) & (g0 < 60)]
+ink = np.median(core, axis=0); ink_deep = np.median(inkpix, axis=0)
+paper = np.median(a[(g0 > 215)], axis=0)
+stain = np.median(a[(g0 > 120) & (g0 < 190)], axis=0)
+tea = np.median(a[(g0 > 190) & (g0 < 215)], axis=0)
+pal = {"ink": hexc(ink), "ink_deep": hexc(ink_deep), "parchment": hexc(paper), "tea_light": hexc(tea), "sepia_stain": hexc(stain)}
+print("palette", json.dumps(pal))
+json.dump(pal, open(os.path.join(ROOT, "source", "sampled-palette.json"), "w"), indent=2)
+
+def trace(m, out, color):
+    png = "/tmp/_trace.png"; Image.fromarray(np.where(m, 0, 255).astype("uint8")).convert("RGB").save(png)
+    vtracer.convert_image_to_svg_py(png, out, colormode="binary", mode="spline", filter_speckle=8, corner_threshold=60,
+                                    length_threshold=4.0, splice_threshold=45, path_precision=1)
+    s = open(out).read(); h, w = m.shape
+    s = re.sub(r'<\?xml[^>]*>\s*', "", s)
+    s = re.sub(r'<svg[^>]*>', f'<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Newquay Seamstress" viewBox="0 0 {w} {h}" width="{w//S}" height="{h//S}">', s, count=1)
     s = re.sub(r'fill="#(?:000000|000)"', f'fill="{color}"', s)
-    s = re.sub(r'<path[^>]*fill="#(?:ffffff|fff|FFFFFF)"[^>]*/>', "", s)
-    s = s.replace("<svg ", f'<svg role="img" aria-label="Newquay Seamstress" viewBox="0 0 {Image.open(png).size[0]} {Image.open(png).size[1]}" ', 1)
-    open(out, "w").write(s)
+    s = re.sub(r'<path[^>]*fill="#(?:ffffff|fff)"[^>]*/>', "", s, flags=re.I)
+    open(out, "w").write(s); return s
 os.makedirs(os.path.join(ROOT, "assets/img"), exist_ok=True); os.makedirs(os.path.join(ROOT, "deliverables"), exist_ok=True)
-out = os.path.join(ROOT, "assets/logo.svg"); trace(tmp, out, hexc(ink))
-light = open(out).read().replace(hexc(ink), "#f1e5c9"); open(os.path.join(ROOT, "assets/logo-light.svg"), "w").write(light)
+out = os.path.join(ROOT, "assets/logo.svg"); s = trace(clean, out, pal["ink"])
+open(os.path.join(ROOT, "assets/logo-light.svg"), "w").write(s.replace(pal["ink"], A.light))
 shutil.copy(out, os.path.join(ROOT, "deliverables/newquay-seamstress-logo.svg"))
-# favicon: the topmost block of ink rows (the sewing machine)
-H = m.size[1]
-rows = (np.asarray(m) < 128).sum(axis=1) > 2; ys = np.where(rows)[0]; top = ys[0]; end = top
-gap = int(H * 0.02)
-for y in ys:
-    if y - end > gap: break
-    end = y
-cols = np.where((np.asarray(m)[top:end] < 128).sum(axis=0) > 0)[0]
-box = (max(cols[0] - 20, 0), max(top - 20, 0), cols[-1] + 20, end + 20)
-side = max(box[2] - box[0], box[3] - box[1]); cx, cy = (box[0] + box[2]) // 2, (box[1] + box[3]) // 2
-sq = m.crop((cx - side // 2, cy - side // 2, cx + side // 2, cy + side // 2)); sq.convert("RGB").save("/tmp/_fav.png")
-fav = os.path.join(ROOT, "assets/img/favicon.svg"); trace("/tmp/_fav.png", fav, hexc(ink))
-rgba = Image.new("RGBA", sq.size, (0, 0, 0, 0)); inkimg = Image.new("RGBA", sq.size, tuple(ink) + (255,)); rgba.paste(inkimg, mask=sq.point(lambda v: 255 - v))
-rgba.resize((512, 512), Image.LANCZOS).save(os.path.join(ROOT, "assets/img/logo.png"))
-print("wrote", out, "logo-light.svg, favicon.svg, logo.png, deliverables/newquay-seamstress-logo.svg")
+shutil.copy(os.path.join(ROOT, "assets/logo-light.svg"), os.path.join(ROOT, "deliverables/newquay-seamstress-logo-light.svg"))
+# favicon: the sewing machine = components in the top part of the logo that are not long thin rules
+fl, fn = ndimage.label(clean); fobjs = ndimage.find_objects(fl); Hc = clean.shape[0]
+ids = []
+for i, sl in enumerate(fobjs, 1):
+    h_, w_ = sl[0].stop - sl[0].start, sl[1].stop - sl[1].start
+    if sl[0].stop < Hc * 0.36 and not (w_ > 6 * h_): ids.append(i)
+mm = np.isin(fl, ids); yy, xx = np.where(mm)
+mach = mm[yy.min():yy.max() + 1, xx.min():xx.max() + 1]
+side = int(max(mach.shape) * 1.08); fav = np.zeros((side, side), bool)
+oy, ox = (side - mach.shape[0]) // 2, (side - mach.shape[1]) // 2; fav[oy:oy + mach.shape[0], ox:ox + mach.shape[1]] = mach
+trace(fav, os.path.join(ROOT, "assets/img/favicon.svg"), pal["ink"])
+rgba = np.zeros((side, side, 4), "uint8"); rgba[fav] = list(np.array(ink, int)) + [255]
+Image.fromarray(rgba).resize((512, 512), Image.LANCZOS).save(os.path.join(ROOT, "assets/img/logo.png"))
+print("wrote logo.svg, logo-light.svg, favicon.svg, logo.png, deliverables/")

@@ -9,8 +9,8 @@ AREAS = [
     ("St Newlyn East", "A few miles south of Newquay, an easy hop for repairs and alterations."),
     ("Quintrell Downs", "On the doorstep. Bring trousers, jeans and coats with broken zips."),
     ("Perranporth", "Wetsuit-and-jeans country. Zip replacement and seam repairs are our everyday work."),
-    ("St Austell", "Wedding, suit and ball gown consultations are worth the drive in from mid Cornwall."),
-    ("Truro", "Cornwall's city. Customers come to us for tailoring and bridal alterations by appointment."),
+    ("St Austell", "Worth the drive in from mid Cornwall for jeans hems, zips and curtain shortening."),
+    ("Truro", "Cornwall's city. Customers bring trousers, coats and curtains to us for alterations and repairs."),
     ("Padstow & Wadebridge", "Up the coast. Holiday-let curtains and cushion zips are a speciality worth the trip."),
     ("Indian Queens & St Dennis", "A quick run down the A30 for everyday alterations and mending."),
     ("Holywell Bay & Cubert", "Small jobs welcome, from a single button to a full set of trouser hems."),
@@ -38,16 +38,12 @@ FAQS = [
      "Yes, the minimum repair charge is £8. Buttons are the exception: replacing or restitching a button is a guide £3, or 3 for £7."),
     ("Do you shorten curtains, including lined and blackout curtains?",
      "Yes. Shortening unlined curtains starts from £20 per pair and lined or blackout curtains from £32 per pair. We also replace cushion cover zips (guide £12)."),
-    ("Do you alter wedding dresses?",
-     "Yes. Sylvia has made wedding dresses as well as ball gowns and suits. Because every bridal gown is different, wedding dress alterations are priced on consultation. <a href=\"../wedding-dress-alterations-cornwall/\">Read about bridal alterations</a>."),
-    ("Can you make a dress or suit from scratch?",
-     "Bespoke dressmaking, ball gowns and suits are available on consultation. Get in touch to talk through your idea, fabric and timescale and we will give you an honest quote."),
     ("Who will be working on my clothes?",
      "Sylvia Pauline Tippett, a tailor with more than 50 years' experience who spent her career as a tailor at RAF St Mawgan, and her daughter Maxine Jennings, who has worked alongside her for over three years. <a href=\"../about/\">Meet them</a>."),
     ("Where are you and which areas do you cover?",
      "We are based in Newquay ({address}, {postcode}). Customers bring work to us from across Cornwall, including St Columb, Crantock, St Newlyn East, Perranporth, St Austell and Truro. <a href=\"../areas-we-serve/\">See all areas</a>."),
     ("How do I book?",
-     "Call us on {phone}, email {email} or use the <a href=\"../contact/\">contact form</a> to arrange a drop-off or a consultation."),
+     "Call us on {phone}, email {email} or use the <a href=\"../contact/\">contact form</a> to arrange a drop-off."),
 ]
 
 def faq_block(items, pre):
@@ -80,7 +76,7 @@ def svc_page(p, eyebrow, lede, prose, cats=None, consult=False):
         h = hero(p, pre, eyebrow, lede, consult).replace("{CRUMBS}", g["crumbs"](p, pre))
         tables = "".join(g["price_table"](c, "h2") for c in (cats or []))
         extra = (f'<h2>Guide prices for this service</h2>{g["GUIDE_NOTE"]}{tables}' if cats else "")
-        return (h + f'<section class="linen"><div class="wrap content"><article class="prose">{prose(pre, g)}{extra}</article>{side(pre, g, cats, consult)}</div></section>')
+        return (h + f'<section class="linen snip-host"><!--SNIP--><div class="wrap content"><article class="prose">{prose(pre, g)}{extra}</article>{side(pre, g, cats, consult)}</div></section>')
     return body
 
 # ---------------- HOME ----------------
@@ -91,9 +87,6 @@ def home(pre, g):
         ("zip-replacement-newquay", "f-mustard", "Zips &amp; buttons", "Trouser, skirt, jeans and coat zips, buttons restitched and new buttonholes.", "Guide from £3", "#7b2d26"),
         ("clothing-repairs-newquay", "f-tweed", "Repairs &amp; mending", "Split seams, small tears, patches and pocket bags, mended neatly.", f"Guide from £{g['cat_from']('repairs')}", "#a87a3d"),
         ("curtain-alterations-newquay", "f-velvet", "Curtains &amp; home", "Unlined, lined and blackout curtains shortened, cushion zips replaced.", f"Guide from £{g['cat_from']('curtains')}", "#7b2d26"),
-        ("wedding-dress-alterations-cornwall", "f-lace", "Wedding &amp; bridal", "Wedding dress alterations from a tailor who has made wedding dresses.", "Price on consultation", "#8a5c36"),
-        ("suit-tailoring-newquay", "f-wool", "Suits &amp; formal wear", "Military-standard tailoring for suits, jackets and formal wear.", "Price on consultation", "#a87a3d"),
-        ("bespoke-dressmaking-newquay", "f-silk", "Bespoke &amp; ball gowns", "Made-to-measure dressmaking and ball gowns, designed with you.", "Price on consultation", "#7b2d26"),
         ("prices", "f-paper", "The full price list", "Every guide price in one place, plus express and drop-off notes.", "See guide prices →", "#8a5c36"),
     ]
     cards = "".join(f'<a class="swatch reveal" style="--pin:{pin}" href="{pre}{s}/"><div class="fab {f} pinked-bottom" aria-hidden="true"></div><h3>{t}</h3><p>{d}</p><span class="price-tag">{pr}</span></a>' for s, f, t, d, pr, pin in sw)
@@ -107,7 +100,7 @@ def home(pre, g):
 <div class="reveal in">
 <p class="eyebrow">Seamstress &amp; tailor · Newquay, Cornwall</p>
 <h1><span class="script">Mended with care,</span>Clothing Alterations &amp; Repairs in Newquay</h1>
-<p class="lede">A mother-and-daughter sewing room led by <strong>Sylvia Tippett</strong>, a tailor with <strong>50+ years' experience</strong> who spent her career as a <strong>tailor at RAF St Mawgan</strong>, and her daughter <strong>Maxine</strong>. Hems, zips, repairs and curtains, plus wedding dresses, suits and ball gowns on consultation.</p>
+<p class="lede">A mother-and-daughter sewing room led by <strong>Sylvia Tippett</strong>, a tailor with <strong>50+ years' experience</strong> who spent her career as a <strong>tailor at RAF St Mawgan</strong>, and her daughter <strong>Maxine</strong>. Hems, zips, repairs, mending and curtains, finished to the standard of a military tailor.</p>
 <div class="btn-row"><a class="btn" href="{pre}contact/">Book a drop-off</a><a class="btn alt" href="{pre}prices/">Guide prices from £{{from}}</a></div>
 <ul class="badges"><li>✂ 50+ years' tailoring</li><li>✪ Ex-RAF St Mawgan tailor</li><li>♥ Mother &amp; daughter</li><li>⏱ Express {E(C["turnaround_express"])}</li></ul>
 </div>
@@ -119,24 +112,23 @@ def home(pre, g):
 <section class="tweed stitched" aria-labelledby="heritage-h"><div class="wrap split">
 <figure class="polaroid reveal">{img(pre, "heritage-tailor", "Vintage tailor's workshop with a green wool military-style jacket on a dress form, tape measure and cast-iron sewing machine")}<figcaption>Half a century of tailoring</figcaption></figure>
 <div class="reveal"><p class="eyebrow">Our heritage</p><h2 id="heritage-h">Military-standard tailoring, passed from mother to daughter</h2>
-<p>For more than 50 years Sylvia worked as a tailor for the military at <strong>RAF St Mawgan</strong>, just up the road from Newquay. Uniforms leave no room for "near enough": every hem level, every seam straight, every button where it should be. That is the standard she brings to your jeans, your curtains and your wedding dress.</p>
-<p>Alongside her service career Sylvia has made <strong>ball gowns, suits and wedding dresses</strong>. Today she works with her daughter <strong>Maxine Jennings</strong>, who has spent over three years at her side learning those skills, so the craft carries on in Newquay.</p>
+<p>For more than 50 years Sylvia worked as a tailor for the military at <strong>RAF St Mawgan</strong>, just up the road from Newquay. Uniforms leave no room for "near enough": every hem level, every seam straight, every button where it should be. That is the standard she brings to your jeans, your coats and your curtains.</p>
+<p>Over her career Sylvia has also made ball gowns, suits and wedding dresses, so she knows exactly how garments are put together. Today she works with her daughter <strong>Maxine Jennings</strong>, who has spent over three years at her side learning those skills, so the craft carries on in Newquay.</p>
 <ul class="stat-row"><li class="stat"><b>{E(s["years"])}</b><span>years Sylvia has tailored</span></li><li class="stat"><b>RAF</b><span>St Mawgan tailor</span></li><li class="stat"><b>{E(m["years"])}</b><span>years Maxine at her side</span></li></ul>
 <a class="btn mustard" href="{pre}about/">Read our story</a></div></div></section>
 
-<section id="services" aria-labelledby="svc-h"><div class="wrap">
-<div class="section-head reveal"><p class="script">Pick your fabric</p><h2 id="svc-h">Sewing services in Newquay</h2><p>From a single button to a bespoke ball gown. Everyday alterations have clear guide prices; bridal, suits and dressmaking are priced on consultation.</p></div>
+<section id="services" class="snip-host" aria-labelledby="svc-h"><!--SNIP--><div class="wrap">
+<div class="section-head reveal"><p class="script">Pick your fabric</p><h2 id="svc-h">Sewing services in Newquay</h2><p>From a single button to a pair of blackout curtains, with clear guide prices for everything we do.</p></div>
 <div class="swatches">{cards}</div></div></section>
 
 <section class="denim stitched" aria-labelledby="craft-h"><div class="wrap split">
-<div class="reveal"><p class="eyebrow">Craftsmanship</p><h2 id="craft-h">Ball gowns, suits &amp; wedding dresses</h2>
-<p>Some garments deserve more than a quick tuck. Sylvia has made ball gowns, suits and wedding dresses from scratch, so she understands how they are built: how a bodice is structured, how a jacket is canvassed and how a layered skirt hangs. That knowledge is what makes alterations to special garments look as if they were never altered at all.</p>
-<ul><li><a href="{pre}wedding-dress-alterations-cornwall/">Wedding dress &amp; bridal alterations</a></li><li><a href="{pre}suit-tailoring-newquay/">Suit tailoring &amp; formal wear</a></li><li><a href="{pre}bespoke-dressmaking-newquay/">Bespoke dressmaking &amp; ball gowns</a></li></ul>
-<p><span class="consult-tag">Price on consultation</span></p></div>
+<div class="reveal"><p class="eyebrow">Everyday clothes, military standard</p><h2 id="craft-h">The small jobs, done properly</h2>
+<p>A jeans hem that keeps its faded factory edge. A coat zip set in dead straight. A split seam re-sewn so it never splits again. Our work is everyday alterations and repairs, and we finish every one with the precision Sylvia learned as a military tailor.</p>
+<ul><li><a href="{pre}trouser-jeans-alterations-newquay/">Trouser &amp; jeans alterations</a></li><li><a href="{pre}zip-replacement-newquay/">Zip &amp; button replacement</a></li><li><a href="{pre}clothing-repairs-newquay/">Clothing repairs &amp; mending</a></li><li><a href="{pre}curtain-alterations-newquay/">Curtain shortening &amp; home</a></li></ul></div>
 <figure class="polaroid reveal" style="transform:rotate(2deg)">{img(pre, "jeans-flatlay", "Tailor's workbench with folded denim jeans chalk-marked for hemming, brass zip, tin of vintage buttons, tape measure and pins on pattern paper")}<figcaption>Chalked, pinned &amp; ready</figcaption></figure>
 </div></section>
 
-<section class="linen" aria-labelledby="price-h"><div class="wrap split">
+<section class="linen snip-host" aria-labelledby="price-h"><!--SNIP--><div class="wrap split">
 <div class="reveal"><p class="eyebrow">Honest pricing</p><h2 id="price-h">Popular guide prices</h2>
 <p>We publish our guide prices so you know roughly what to expect before you walk in. The full list covers trousers and jeans, zips and fastenings, repairs and curtains.</p>
 {g["GUIDE_NOTE"]}<a class="btn" href="{pre}prices/">See every guide price</a></div>
@@ -158,7 +150,7 @@ def home(pre, g):
 <ul class="badges" style="justify-content:center">{"".join(f'<li>📍 {_h.escape(n)}</li>' for n, d in AREAS)}</ul>
 </div></section>
 
-<section aria-labelledby="faq-h"><div class="wrap" style="max-width:860px">
+<section class="snip-host" aria-labelledby="faq-h"><!--SNIP--><div class="wrap" style="max-width:860px">
 <div class="section-head reveal"><p class="script">You asked</p><h2 id="faq-h">Alterations questions</h2></div>
 {faqs}<p style="text-align:center;margin-top:1.5rem"><a class="btn alt" href="{pre}faq/">All FAQs</a></p></div></section>
 '''
@@ -181,7 +173,7 @@ def p_trousers(pre, g):
 <p>We are happy to pin your hems at drop-off. Bring the shoes you will wear with them, because a trainer and a heeled boot need very different lengths. If it is easier, pin or measure your preferred length at home and we will work to that. Please bring trousers and jeans freshly washed: we only work on clean items, and pre-washed denim will not shrink after we have hemmed it.</p>
 <h2>How long does it take?</h2>
 <p>Standard turnaround is {{std}}. Need them for a wedding, an interview or a trip? Express turnaround is {{exp}} for an extra £{{express}}.</p>
-<p>Looking for something else? See <a href="{pre}zip-replacement-newquay/">jeans zip replacement</a>, <a href="{pre}clothing-repairs-newquay/">pocket and seam repairs</a> or <a href="{pre}suit-tailoring-newquay/">suit trouser tailoring</a>.</p>'''
+<p>Looking for something else? See <a href="{pre}zip-replacement-newquay/">jeans zip replacement</a> or <a href="{pre}clothing-repairs-newquay/">pocket and seam repairs</a>.</p>'''
 
 def p_zips(pre, g):
     return f'''
@@ -233,60 +225,6 @@ def p_curtains(pre, g):
 <h2>For holiday lets and second homes</h2>
 <p>Newquay, Crantock and Padstow are full of holiday lets with tired soft furnishings. Shortening curtains and replacing broken cushion zips between seasons is an easy way to freshen a property. Standard turnaround is {{std}}, or express {{exp}} for an extra £{{express}}.</p>'''
 
-def p_wedding(pre, g):
-    return f'''
-<h2>Wedding dress alterations from a tailor who has made wedding dresses</h2>
-<p>Your wedding dress is the one garment that has to be perfect. Sylvia has made wedding dresses, ball gowns and suits, and spent more than 50 years as a tailor, including her career at RAF St Mawgan. Understanding how a gown is constructed, from bodice structure to layered skirts and linings, is what lets an alteration disappear into the dress.</p>
-<p>Brides come to us from Newquay and across Cornwall, including Truro, St Austell, Perranporth and Padstow.</p>
-<h2>What we can help with</h2>
-<p>Every dress is different, so we look at yours before promising anything. Typical bridal work people ask us about includes:</p>
-<ul>
-<li>Shortening hems, including multi-layer skirts and linings</li>
-<li>Taking in or adjusting the fit through the bodice and side seams</li>
-<li>Strap and shoulder adjustments</li>
-<li>Bridesmaid dresses and mother-of-the-bride or groom outfits</li>
-<li>Groom's and groomsmen's suits: see <a href="{pre}suit-tailoring-newquay/">suit tailoring</a></li>
-</ul>
-<h2>Price on consultation</h2>
-<p>Bridal alterations are priced on consultation, after a fitting, because the work depends entirely on the fabric, construction and what needs changing. You will know the price before any work starts.</p>
-<h2>When to book</h2>
-<p>Get in touch as soon as you have your dress and your date. Bring the shoes and underwear you plan to wear on the day to your fitting so the length and fit are right first time. Please make sure the dress is clean.</p>
-<p>Planning something entirely new? See <a href="{pre}bespoke-dressmaking-newquay/">bespoke dressmaking &amp; ball gowns</a>.</p>'''
-
-def p_suits(pre, g):
-    return f'''
-<h2>Suit tailoring with a military tailor's eye</h2>
-<p>For more than 50 years Sylvia worked as a tailor for the military at RAF St Mawgan, where uniforms are inspected and nothing short of immaculate passes. She has also made suits from scratch. That combination of discipline and construction knowledge is exactly what a good suit alteration needs.</p>
-{img(pre, "heritage-tailor", "Green wool military-style jacket on a wooden dress form with a tape measure, next to a vintage cast-iron sewing machine")}
-<h2>Suits and formal wear</h2>
-<ul>
-<li>Suit trousers hemmed, with plain, blind-stitched or turn-up finishes (see <a href="{pre}trouser-jeans-alterations-newquay/">trouser guide prices</a>)</li>
-<li>Jacket and suit fitting adjustments, assessed at a fitting</li>
-<li>Wedding suits for grooms, groomsmen and fathers of the bride</li>
-<li>Formal wear for balls, dinners, proms and events</li>
-<li>Uniform and blazer alterations</li>
-</ul>
-<h2>Price on consultation</h2>
-<p>Trouser hems on suits follow our published guide prices. Jacket work and full suit tailoring are priced on consultation, because what is possible depends on how the jacket is constructed and how much fabric is in the seams. We will tell you honestly what will work.</p>
-<p>Clean garments only, please. Get in touch to arrange a fitting.</p>'''
-
-def p_bespoke(pre, g):
-    return f'''
-<h2>Made-to-measure dressmaking and ball gowns in Newquay</h2>
-<p>Sylvia has made ball gowns, suits and wedding dresses, and brings over half a century of tailoring to every commission. With Maxine working alongside her, we can help bring a garment to life, from an idea or a favourite piece you would love copied.</p>
-{img(pre, "hero-machine", "Antique sewing machine surrounded by rose, mustard and teal thread, a tape measure and folded fabric swatches")}
-<h2>What we make</h2>
-<ul>
-<li>Ball gowns and evening dresses</li>
-<li>Formal and special-occasion wear</li>
-<li>Made-to-measure garments designed with you</li>
-<li>Remodelling or restyling a garment you already own</li>
-</ul>
-<h2>How a commission works</h2>
-<p>It starts with a conversation: what you want, when you need it, and the fabric you have in mind. We then take measurements and agree the design and price before anything is cut. Bespoke work is priced on consultation, since every piece is different.</p>
-<p>Allow plenty of time for bespoke work, especially for balls and weddings, so there is room for fittings. <a href="{pre}contact/">Get in touch</a> to talk it through.</p>
-<p>Already have the dress? See <a href="{pre}wedding-dress-alterations-cornwall/">wedding dress alterations</a> or <a href="{pre}suit-tailoring-newquay/">suit tailoring</a>.</p>'''
-
 # ---------------- OTHER PAGES ----------------
 def prices_page(p):
     def body(pre, g):
@@ -296,12 +234,6 @@ def prices_page(p):
         tables = "".join(g["price_table"](c["id"], "h2") for c in C["prices"])
         return h + f'''<section class="linen"><div class="wrap">{g["GUIDE_NOTE"]}
 <div class="price-cols">{tables}
-<div class="price-card pinked-bottom reveal" id="consultation"><h2>Price on consultation</h2>
-<table class="price-table"><caption class="sr-only">Services priced on consultation</caption><tbody>
-<tr><th scope="row"><a href="{pre}wedding-dress-alterations-cornwall/">Wedding &amp; bridal alterations</a></th><td class="p">On consultation</td></tr>
-<tr><th scope="row"><a href="{pre}suit-tailoring-newquay/">Suit tailoring &amp; formal wear</a></th><td class="p">On consultation</td></tr>
-<tr><th scope="row"><a href="{pre}bespoke-dressmaking-newquay/">Bespoke dressmaking &amp; ball gowns</a></th><td class="p">On consultation</td></tr>
-</tbody></table></div>
 <div class="price-card pinked-bottom reveal" id="good-to-know"><h2>Good to know</h2>
 <table class="price-table"><tbody>
 <tr><th scope="row">Clean items only<span class="note">Garments and curtains must be freshly washed before drop-off.</span></th><td class="p"></td></tr>
@@ -323,7 +255,7 @@ def about_page(p):
         return h + f'''<section class="linen"><div class="wrap split">
 <div class="prose reveal"><h2>Fifty years of tailoring at RAF St Mawgan</h2>
 <p>Sylvia Pauline Tippett was a tailor at RAF St Mawgan, near Newquay, working for the military for over 50 years. Military tailoring is unforgiving: uniforms are worn on parade, inspected closely and expected to last. Hems must be level, seams straight and every detail regulation-correct. Half a century of that work builds a level of precision you can see in the finish.</p>
-<p>Sylvia's skill reaches well beyond uniforms. She has made <strong>ball gowns, suits and wedding dresses</strong>, and that understanding of how garments are constructed is what lets her alter them so well, from a simple pair of jeans to a layered bridal gown.</p>
+<p>Sylvia's skill reaches well beyond uniforms: over her career she has made ball gowns, suits and wedding dresses, and that understanding of how garments are constructed is what lets her alter them so well, from a simple pair of jeans to a layered bridal gown.</p>
 <h2>Mother and daughter</h2>
 <p>Maxine Jennings is Sylvia's daughter. For more than three years she has worked alongside her mum, learning her skills and standards at the sewing machine, so the craft continues in Newquay for the next generation of customers.</p></div>
 <figure class="polaroid reveal">{img(pre, "heritage-tailor", "Vintage tailoring workshop with a green wool uniform-style jacket on a dress form and an old cast-iron sewing machine")}<figcaption>Precision, stitch by stitch</figcaption></figure>
@@ -332,7 +264,7 @@ def about_page(p):
 <section class="tweed stitched"><div class="wrap"><div class="section-head reveal"><h2>What that means for you</h2></div>
 <ul class="notions">
 <li class="reveal">{g["button_svg"]("#a87a3d")}<div><h3>Precision</h3><p>Military-standard finishing on everyday alterations.</p></div></li>
-<li class="reveal">{g["button_svg"]("#7b2d26")}<div><h3>Construction know-how</h3><p>Someone who has made gowns and suits, altering yours.</p></div></li>
+<li class="reveal">{g["button_svg"]("#7b2d26")}<div><h3>Construction know-how</h3><p>Half a century of knowing how garments are built, applied to every hem and seam.</p></div></li>
 <li class="reveal">{g["button_svg"]("#8a5c36")}<div><h3>Honest advice</h3><p>Clear guide prices, confirmed at drop-off before work starts.</p></div></li>
 <li class="reveal">{g["button_svg"]("#e6d4b4")}<div><h3>Local</h3><p>Based in Newquay, a short trip from St Mawgan, Crantock and St Columb.</p></div></li>
 </ul></div></section>'''
@@ -347,7 +279,7 @@ def areas_page(p):
 <ul class="area-list">{items}</ul>
 <div class="prose" style="max-width:820px;margin:3rem auto 0">
 <h2>Alterations near you, without the trip to the city</h2>
-<p>Whether you are in St Columb Major, Crantock, Perranporth or further afield in St Austell or Truro, every service is available from our Newquay base: <a href="{pre}trouser-jeans-alterations-newquay/">trouser and jeans alterations</a>, <a href="{pre}zip-replacement-newquay/">zip replacement</a>, <a href="{pre}clothing-repairs-newquay/">repairs and mending</a> and <a href="{pre}curtain-alterations-newquay/">curtain shortening</a>, plus <a href="{pre}wedding-dress-alterations-cornwall/">wedding dress alterations</a>, <a href="{pre}suit-tailoring-newquay/">suit tailoring</a> and <a href="{pre}bespoke-dressmaking-newquay/">bespoke dressmaking</a> on consultation.</p>
+<p>Whether you are in St Columb Major, Crantock, Perranporth or further afield in St Austell or Truro, every service is available from our Newquay base: <a href="{pre}trouser-jeans-alterations-newquay/">trouser and jeans alterations</a>, <a href="{pre}zip-replacement-newquay/">zip replacement</a>, <a href="{pre}clothing-repairs-newquay/">repairs and mending</a> and <a href="{pre}curtain-alterations-newquay/">curtain shortening</a>.</p>
 <p>Drop-off address: {{address}}, Newquay {{postcode}}. Call {{phone}} to arrange a time.</p></div></div></section>'''
     return body
 
@@ -368,7 +300,7 @@ def contact_page(p):
         mail = f'<a href="mailto:{E(C["email"])}">{E(C["email"])}</a>' if not g["is_ph"](C["email"]) else show(C["email"])
         mp = f'<p><a href="{E(C["map_link"])}" rel="noopener">Open in Google Maps →</a></p>' if not g["is_ph"](C["map_link"]) else f'<p>{show(C["map_link"])}</p>'
         h = (f'<header class="page-hero"><div class="wrap">{g["crumbs"](p, pre)}<p class="eyebrow">Contact &amp; drop-off</p><h1>{p["h1"]}</h1>'
-             f'<p class="lede">Call, email or send an enquiry to arrange a drop-off or a consultation. Please bring items freshly washed.</p></div></header>')
+             f'<p class="lede">Call, email or send an enquiry to arrange a drop-off. Please bring items freshly washed.</p></div></header>')
         return h + f'''<section class="linen"><div class="wrap contact-grid">
 <div class="side-card"><h2>Find us</h2><address style="font-style:normal">{show(C["street_address"])}<br>{E(C["locality"])}, {E(C["region"])}<br>{show(C["postcode"])}</address>
 <p>☎ {tel}<br>✉ {mail}</p>{mp}
@@ -398,7 +330,7 @@ def _svc(slug, crumb, title, desc, h1, service, eyebrow, lede, prose, cats=None,
 
 PAGES = []
 _home = {"slug": "", "crumb": "Home", "title": "Seamstress Newquay | Clothing Alterations & Repairs",
-         "desc": "Newquay seamstress & ex-RAF St Mawgan tailor, 50+ years' experience. Hems, zips, repairs & curtains, guide prices from £3. Bridal & suits on consultation.",
+         "desc": "Newquay seamstress & ex-RAF St Mawgan tailor, 50+ years' experience. Hems, zips, repairs & curtains, guide prices from £3.",
          "h1": "", "prio": "1.0", "body": home}
 PAGES.append(_home)
 PAGES += [
@@ -426,31 +358,13 @@ PAGES += [
       "Curtain Shortening &amp; Alterations in Newquay", "Curtain shortening and soft furnishing alterations", "Curtains · cushions · home",
       "Unlined, lined and blackout curtains shortened per pair, and cushion cover zips replaced. Guide prices from £12.",
       p_curtains, ["curtains"], img="curtains"),
- _svc("wedding-dress-alterations-cornwall", "Wedding & Bridal Alterations",
-      "Wedding Dress Alterations Cornwall | Newquay Seamstress",
-      "Wedding dress & bridal alterations in Newquay, Cornwall by Sylvia, a 50+ year tailor who has made wedding dresses and ball gowns. Price on consultation.",
-      "Wedding Dress Alterations in Cornwall", "Wedding dress and bridal alterations", "Bridal · bridesmaids · mother of the bride",
-      "Bridal alterations from a tailor who has made wedding dresses herself, based in Newquay and serving brides across Cornwall. Price on consultation.",
-      p_wedding, None, consult=True),
- _svc("suit-tailoring-newquay", "Suit Tailoring & Formal Wear",
-      "Suit Tailoring Newquay | Ex-RAF St Mawgan Tailor",
-      "Suit tailoring & formal wear in Newquay by a tailor with 50+ years at RAF St Mawgan who has made suits. Wedding suits too. Price on consultation.",
-      "Suit Tailoring &amp; Formal Wear in Newquay", "Suit tailoring and formal wear alterations", "Suits · jackets · formal wear",
-      "Military-standard tailoring for suits, jackets, wedding suits and formal wear, from a tailor who has made suits from scratch. Price on consultation.",
-      p_suits, None, consult=True, img="heritage-tailor"),
- _svc("bespoke-dressmaking-newquay", "Bespoke Dressmaking & Ball Gowns",
-      "Bespoke Dressmaking & Ball Gowns Newquay | Made to Measure",
-      "Bespoke, made-to-measure dressmaking and ball gowns in Newquay by a tailor who has made ball gowns, suits & wedding dresses. Price on consultation.",
-      "Bespoke Dressmaking &amp; Ball Gowns in Newquay", "Bespoke dressmaking and ball gowns", "Made to measure · ball gowns · evening wear",
-      "Made-to-measure dresses, ball gowns and special-occasion wear, made by Sylvia and Maxine in Newquay. Price on consultation.",
-      p_bespoke, None, consult=True),
 ]
 _pr = {"slug": "prices", "crumb": "Guide Prices", "title": "Alteration Guide Prices Newquay | Newquay Seamstress",
        "desc": "Guide prices for alterations in Newquay: jeans hems from £10, trouser hems £12, zips from £15, repairs from £8, curtains from £20, confirmed at drop-off.",
        "h1": "Alteration &amp; Repair Guide Prices", "pagetype": "WebPage", "prio": "0.9"}
 _pr["body"] = prices_page(_pr)
 _ab = {"slug": "about", "crumb": "Our Story", "title": "About Sylvia & Maxine | Ex-RAF Tailor, Newquay",
-       "desc": "Meet Sylvia Tippett, a tailor at RAF St Mawgan for over 50 years who has made ball gowns, suits & wedding dresses, and her daughter Maxine Jennings.",
+       "desc": "Meet Sylvia Tippett, a tailor at RAF St Mawgan for over 50 years, and her daughter Maxine Jennings: Newquay's mother-and-daughter seamstresses.",
        "h1": "A Military Tailor &amp; Her Daughter", "pagetype": "AboutPage", "img": "heritage-tailor", "prio": "0.8"}
 _ab["body"] = about_page(_ab)
 _ar = {"slug": "areas-we-serve", "crumb": "Areas We Serve", "title": "Seamstress Near Newquay | St Columb, Crantock & Truro",
@@ -458,12 +372,12 @@ _ar = {"slug": "areas-we-serve", "crumb": "Areas We Serve", "title": "Seamstress
        "h1": "Seamstress for Newquay &amp; Surrounding Areas", "prio": "0.8"}
 _ar["body"] = areas_page(_ar)
 _fq = {"slug": "faq", "crumb": "FAQ", "title": "Alterations FAQ Newquay | Prices & Turnaround",
-       "desc": "Answers on alteration guide prices, 3–5 day turnaround, 24–48 hour express, washing, pinning hems, zips, curtains and wedding dresses in Newquay.",
+       "desc": "Answers on alteration guide prices, 3–5 day turnaround, 24–48 hour express, washing, pinning hems, zips and curtain shortening in Newquay.",
        "h1": "Frequently Asked Questions", "pagetype": "FAQPage_holder", "faq_schema": True, "prio": "0.7"}
 _fq["pagetype"] = "WebPage"
 _fq["body"] = faq_page(_fq)
 _ct = {"slug": "contact", "crumb": "Contact", "title": "Contact Newquay Seamstress | Book an Alteration or Fitting",
-       "desc": "Book a drop-off or a fitting with Newquay Seamstress. Clothing alterations, repairs, curtains, wedding dresses and suits in Newquay, Cornwall.",
+       "desc": "Book a drop-off or a fitting with Newquay Seamstress. Clothing alterations, zips, repairs and curtain shortening in Newquay, Cornwall.",
        "h1": "Contact &amp; Book a Drop-off", "pagetype": "ContactPage", "prio": "0.8", "nocta": True}
 _ct["body"] = contact_page(_ct)
 _nf = {"slug": "404", "crumb": "Not found", "title": "Page not found | Newquay Seamstress", "desc": "Page not found.", "h1": "", "noindex": True}

@@ -23,11 +23,11 @@ Getting listed on these (especially the Cargo list, under "Perranporth / Newquay
 ## Keywords targeted (and missed)
 - Competitors target: "clothing alterations Newquay", "wedding dress alterations Cornwall/Truro", "bespoke curtains Cornwall".
 - **Nobody targets with a dedicated page:** "jeans hemming Newquay", "zip replacement Newquay", "clothing repairs Newquay",
-  "curtain shortening Newquay", "suit tailoring Newquay", "bespoke dressmaking / ball gowns Newquay", "alteration prices Newquay",
+  "curtain shortening Newquay", "alteration prices Newquay",
   or the surrounding villages (St Columb, Crantock, St Newlyn East, Perranporth, St Mawgan).
 
 ## How this site beats them
-1. **One keyword-targeted page per service** (7 service pages, plus prices, areas, FAQ, about and contact), each with a unique title under 60 characters, a meta description under 160 characters, one H1 and a clean H2 structure. Competitors have one or two thin pages.
+1. **One keyword-targeted page per service** (4 service pages matching the price list, plus prices, areas, FAQ, about and contact), each with a unique title under 60 characters, a meta description under 160 characters, one H1 and a clean H2 structure. Competitors have one or two thin pages.
 2. **Richer structured data than anyone locally:** ProfessionalService/LocalBusiness with `areaServed`, two `Person` employees (E-E-A-T), an `OfferCatalog` of guide-price `Offer`s with `PriceSpecification` (minPrice/maxPrice), a `Service` per page, a `BreadcrumbList` on every page and an `FAQPage`. The best local competitor (Deborah Cooper) has a single ProfessionalService block.
 3. **Published guide prices** on every service page and a full price list. Price queries ("how much to take up jeans Newquay") are unanswered by most local sites.
 4. **E-E-A-T heritage story:** 50+ years as a military tailor at RAF St Mawgan, and a mother-and-daughter team. That is unique, verifiable-sounding expertise that no competitor can claim.
