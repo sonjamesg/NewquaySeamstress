@@ -38,3 +38,9 @@ def file_date(path):
         if d: return d
     except Exception: pass
     return datetime.date.fromtimestamp(os.path.getmtime(path)).isoformat()
+
+
+def launderama_html():
+    """Referral sentence linking to Newquay Launderama (data/site.config.json -> launderama)."""
+    l = C["launderama"]
+    return f'{E(l["before"])}<a href="{E(l["url"])}">{E(l["name"])}</a>{E(l["after"])}'

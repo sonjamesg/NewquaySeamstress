@@ -9,7 +9,7 @@
  },
  {
   "q": "Do my clothes or curtains need to be washed first?",
-  "a": "Yes please. We can only work on clean items, so garments and curtains must be freshly washed before drop-off. It keeps the workroom (and everyone else's clothes) clean and means hems are measured on fabric that has already shrunk."
+  "a": "Yes please. We can only work on clean items, so garments and curtains must be freshly washed before drop-off. It keeps the workroom (and everyone else's clothes) clean and means hems are measured on fabric that has already shrunk. {{launderama}}"
  },
  {
   "q": "Can you pin my hem when I drop off?",

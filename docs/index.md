@@ -143,7 +143,7 @@ Standard turnaround is 3–5 days. If you need it sooner, our express service tu
 
 Do my clothes or curtains need to be washed first?
 
-Yes please. We can only work on clean items, so garments and curtains must be freshly washed before drop-off. It keeps the workroom (and everyone else's clothes) clean and means hems are measured on fabric that has already shrunk.
+Yes please. We can only work on clean items, so garments and curtains must be freshly washed before drop-off. It keeps the workroom (and everyone else's clothes) clean and means hems are measured on fabric that has already shrunk. No washing machine big enough for your curtains? Our friends at [Newquay Launderama](https://newquaylaunderama.com/) offer service washes and large-item washing, so they can get them clean for you first.
 
 Can you pin my hem when I drop off?
 

@@ -1,5 +1,5 @@
 """Guide-price tables, the guide-price note, the home page teaser and the service-page sidebar."""
-from ..config import C, E, CATS, money, PRICE_TEASER, SERVICES
+from ..config import launderama_html, C, E, CATS, money, PRICE_TEASER, SERVICES
 from .contact import call_btn, email_btn
 
 GUIDE_NOTE = ('<p class="guide-note" role="note"><svg class="btn-icon" style="width:34px;height:34px" viewBox="0 0 60 60" aria-hidden="true">'
@@ -24,6 +24,6 @@ def sidebar(cats):
     others = "".join(f'<li><a href="/{s["slug"]}/">{E(s["nav"])}</a></li>' for s in SERVICES)
     return ('<aside class="sidebar" aria-label="Service details">'
             f'<div class="side-card"><h2>Guide prices</h2><ul>{rows}</ul><p class="small">Guide prices only. Final price confirmed at drop-off.</p><p><a href="/prices/">Full guide price list →</a></p></div>'
-            f'<div class="side-card rose"><h2>Good to know</h2><ul><li>Clean, freshly washed items only</li><li>Hems pinned at drop-off, or pin at home</li><li>Standard {E(C["turnaround_standard"])}</li><li>Express {E(C["turnaround_express"])} +£{C["express_surcharge"]}</li></ul>'
+            f'<div class="side-card rose"><h2>Good to know</h2><ul><li>Clean, freshly washed items only{(". " + launderama_html()) if "curtains" in cats else ""}</li><li>Hems pinned at drop-off, or pin at home</li><li>Standard {E(C["turnaround_standard"])}</li><li>Express {E(C["turnaround_express"])} +£{C["express_surcharge"]}</li></ul>'
             f'<p class="btn-stack">{call_btn("btn mustard")}{email_btn("btn alt")}</p></div>'
             f'<div class="side-card"><h2>All services</h2><ul>{others}</ul></div></aside>')

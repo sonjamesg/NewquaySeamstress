@@ -52,7 +52,7 @@ Clear guide prices for everyday alterations in Newquay, from £3. Final prices a
 
 |  |  |
 | --- | --- |
-| Clean items only (Garments and curtains must be freshly washed before drop-off.) |  |
+| Clean items only (Garments and curtains must be freshly washed before drop-off. No washing machine big enough for your curtains? Our friends at Newquay Launderama offer service washes and large-item washing, so they can get them clean for you first.) |  |
 | Pinning & fitting (Happy to pin hems at drop-off, or pin or measure your preferred length at home.) |  |
 | Standard turnaround | 3–5 days |
 | Express turnaround (24–48 hours) | +£5 |

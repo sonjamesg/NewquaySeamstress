@@ -1,79 +1,86 @@
 {
-  "_README": "Business details. Edit, then run: python3 build.py. Values in [square brackets] are unknown: they are hidden from the public pages and left out of the structured data until filled in. The public address is deliberately just Newquay, Cornwall (drop-off by arrangement). Prices live in data/prices.json, FAQs in data/faqs.json, areas in data/areas.json, services in data/services.json, page text in content/pages/.",
-  "site_url": "https://newquayseamstress.com",
-  "business_name": "Newquay Seamstress",
-  "tagline": "Clothing alterations, repairs & curtain shortening in Newquay, Cornwall",
-  "phone_display": "07807 274898",
-  "phone_e164": "+447807274898",
-  "email": "maxinejennings58@gmail.com",
-  "contact_name": "Maxine",
-  "locality": "Newquay",
-  "region": "Cornwall",
-  "country": "GB",
-  "opening_hours_display": [
-    [
-      "Monday",
-      "[Opening hours]"
-    ],
-    [
-      "Tuesday",
-      "[Opening hours]"
-    ],
-    [
-      "Wednesday",
-      "[Opening hours]"
-    ],
-    [
-      "Thursday",
-      "[Opening hours]"
-    ],
-    [
-      "Friday",
-      "[Opening hours]"
-    ],
-    [
-      "Saturday",
-      "[Opening hours]"
-    ],
-    [
-      "Sunday",
-      "[Opening hours]"
-    ]
+ "_README": "Business details. Edit, then run: python3 build.py. Values in [square brackets] are unknown: they are hidden from the public pages and left out of the structured data until filled in. The public address is deliberately just Newquay, Cornwall (drop-off by arrangement). Prices live in data/prices.json, FAQs in data/faqs.json, areas in data/areas.json, services in data/services.json, page text in content/pages/.",
+ "site_url": "https://newquayseamstress.com",
+ "business_name": "Newquay Seamstress",
+ "tagline": "Clothing alterations, repairs & curtain shortening in Newquay, Cornwall",
+ "phone_display": "07807 274898",
+ "phone_e164": "+447807274898",
+ "email": "maxinejennings58@gmail.com",
+ "contact_name": "Maxine",
+ "locality": "Newquay",
+ "region": "Cornwall",
+ "country": "GB",
+ "opening_hours_display": [
+  [
+   "Monday",
+   "[Opening hours]"
   ],
-  "opening_hours_schema": [],
-  "_opening_hours_schema_example": [
-    "Mo-Fr 09:00-17:00",
-    "Sa 09:00-13:00"
+  [
+   "Tuesday",
+   "[Opening hours]"
   ],
-  "facebook_url": "[Facebook page URL]",
-  "instagram_url": "[Instagram URL]",
-  "google_business_url": "[Google Business Profile URL]",
-  "form_action": "https://formsubmit.co/maxinejennings58@gmail.com",
-  "_form_action_note": "FormSubmit forwards enquiries to the email with no backend. The FIRST submission triggers a one-time activation email to that inbox, which must be clicked before messages are delivered. After activation FormSubmit offers a random alias URL you can paste here to hide the address.",
-  "people": [
-    {
-      "name": "Sylvia Pauline Tippett",
-      "short": "Sylvia",
-      "role": "Tailor & founder",
-      "years": "50+",
-      "bio": "Sylvia has more than 50 years' experience as a tailor. She was a tailor at RAF St Mawgan, working for the military for over 50 years, where uniforms had to be precise, hard-wearing and immaculately finished, every single time."
-    },
-    {
-      "name": "Maxine Jennings",
-      "short": "Maxine",
-      "role": "Seamstress",
-      "years": "3+",
-      "bio": "Maxine is Sylvia's daughter. She has more than three years' experience working alongside her mum, learning the tailoring skills and standards Sylvia built over half a century."
-    }
+  [
+   "Wednesday",
+   "[Opening hours]"
   ],
-  "express_surcharge": 5,
-  "turnaround_standard": "3–5 days",
-  "turnaround_express": "24–48 hours",
-  "phone_schema": "+44 7807 274898",
-  "dropoff_note": "Drop-off by arrangement. Call or message Maxine to arrange a time.",
-  "geo": {
-    "latitude": 50.4155,
-    "longitude": -5.0737,
-    "_note": "Town-centre coordinates for Newquay (not a street address)."
+  [
+   "Thursday",
+   "[Opening hours]"
+  ],
+  [
+   "Friday",
+   "[Opening hours]"
+  ],
+  [
+   "Saturday",
+   "[Opening hours]"
+  ],
+  [
+   "Sunday",
+   "[Opening hours]"
+  ]
+ ],
+ "opening_hours_schema": [],
+ "_opening_hours_schema_example": [
+  "Mo-Fr 09:00-17:00",
+  "Sa 09:00-13:00"
+ ],
+ "facebook_url": "[Facebook page URL]",
+ "instagram_url": "[Instagram URL]",
+ "google_business_url": "[Google Business Profile URL]",
+ "form_action": "https://formsubmit.co/maxinejennings58@gmail.com",
+ "_form_action_note": "FormSubmit forwards enquiries to the email with no backend. The FIRST submission triggers a one-time activation email to that inbox, which must be clicked before messages are delivered. After activation FormSubmit offers a random alias URL you can paste here to hide the address.",
+ "people": [
+  {
+   "name": "Sylvia Pauline Tippett",
+   "short": "Sylvia",
+   "role": "Tailor & founder",
+   "years": "50+",
+   "bio": "Sylvia has more than 50 years' experience as a tailor. She was a tailor at RAF St Mawgan, working for the military for over 50 years, where uniforms had to be precise, hard-wearing and immaculately finished, every single time."
+  },
+  {
+   "name": "Maxine Jennings",
+   "short": "Maxine",
+   "role": "Seamstress",
+   "years": "3+",
+   "bio": "Maxine is Sylvia's daughter. She has more than three years' experience working alongside her mum, learning the tailoring skills and standards Sylvia built over half a century."
   }
+ ],
+ "express_surcharge": 5,
+ "turnaround_standard": "3–5 days",
+ "turnaround_express": "24–48 hours",
+ "phone_schema": "+44 7807 274898",
+ "dropoff_note": "Drop-off by arrangement. Call or message Maxine to arrange a time.",
+ "geo": {
+  "latitude": 50.4155,
+  "longitude": -5.0737,
+  "_note": "Town-centre coordinates for Newquay (not a street address)."
+ },
+ "launderama": {
+  "_note": "Friendly referral shown in the 'washed first' FAQ, the prices page 'Clean items only' note and the curtains page 'Good to know' card. Facts from newquaylaunderama.com (service washes, duvet cleaning & large item washing).",
+  "name": "Newquay Launderama",
+  "url": "https://newquaylaunderama.com/",
+  "before": "No washing machine big enough for your curtains? Our friends at ",
+  "after": " offer service washes and large-item washing, so they can get them clean for you first."
+ }
 }

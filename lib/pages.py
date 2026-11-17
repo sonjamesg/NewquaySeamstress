@@ -1,7 +1,7 @@
 """Loads content/pages/*.html (a JSON front-matter block between --- lines, then the page body)
 and expands {{shortcodes}} in the body. Shortcode syntax: {{name}} or {{name arg|arg2|...}}."""
 import os, re, json
-from .config import ROOT, C, E, FAQS, AREAS, SERVICES, PRICE_CARD, ALL_FROM, cat_from, file_date
+from .config import launderama_html, ROOT, C, E, FAQS, AREAS, SERVICES, PRICE_CARD, ALL_FROM, cat_from, file_date
 from .components.contact import tel_link, mail_link, call_btn, email_btn, address_html
 from .components.icons import button_svg
 from .components.images import picture, logo_picture
@@ -28,7 +28,7 @@ def load_pages():
     return pages
 
 def faqs_html(n=None):
-    out = "".join(f"<details><summary>{E(f['q'])}</summary><div><p>{f['a']}</p></div></details>" for f in FAQS[: n or len(FAQS)])
+    out = "".join(f"<details><summary>{E(f['q'])}</summary><div><p>{f['a'].replace('{{launderama}}', launderama_html())}</p></div></details>" for f in FAQS[: n or len(FAQS)])
     return f'<div class="faq">{out}</div>'
 
 def crumbs_html(p):
@@ -72,7 +72,7 @@ def render(p, A, src=None):
             "mail": lambda: mail_link(a[0] if a else "", a[1] if len(a) > 1 else None),
             "call_btn": lambda: call_btn(arg or "btn"), "email_btn": lambda: email_btn(arg or "btn alt"),
             "address": address_html, "from": lambda: str(cat_from(arg) if arg else ALL_FROM),
-            "std": lambda: E(C["turnaround_standard"]), "exp": lambda: E(C["turnaround_express"]), "express": lambda: str(C["express_surcharge"]),
+            "launderama": launderama_html, "std": lambda: E(C["turnaround_standard"]), "exp": lambda: E(C["turnaround_express"]), "express": lambda: str(C["express_surcharge"]),
             "img": lambda: picture(A, a[0], a[1], eager=len(a) > 2 and a[2] == "eager", sizes="(max-width:900px) 92vw, 540px" if len(a) > 2 else "(max-width:900px) 92vw, 560px"),
             "button": lambda: button_svg(arg),
             "hero_logo": lambda: logo_picture(A, "logo-hero", (360, 720), C["business_name"] + " vintage sewing machine logo", "hero-logo", eager=True, sizes="(max-width:600px) 78vw, 360px"), "guide_note": lambda: GUIDE_NOTE,
