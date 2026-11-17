@@ -34,8 +34,8 @@ def offer(it):
     return o
 
 GUIDE_NOTE = ('<p class="guide-note" role="note"><svg class="btn-icon" style="width:34px;height:34px" viewBox="0 0 60 60" aria-hidden="true">'
-  '<circle cx="30" cy="30" r="27" fill="#c6952c"/><circle cx="30" cy="30" r="21" fill="none" stroke="#2a1f19" stroke-width="1.5" stroke-dasharray="3 3"/>'
-  '<circle cx="24" cy="24" r="3" fill="#2a1f19"/><circle cx="36" cy="24" r="3" fill="#2a1f19"/><circle cx="24" cy="36" r="3" fill="#2a1f19"/><circle cx="36" cy="36" r="3" fill="#2a1f19"/></svg>'
+  '<circle cx="30" cy="30" r="27" fill="#a87a3d"/><circle cx="30" cy="30" r="21" fill="none" stroke="#2a170f" stroke-width="1.5" stroke-dasharray="3 3"/>'
+  '<circle cx="24" cy="24" r="3" fill="#2a170f"/><circle cx="36" cy="24" r="3" fill="#2a170f"/><circle cx="24" cy="36" r="3" fill="#2a170f"/><circle cx="36" cy="36" r="3" fill="#2a170f"/></svg>'
   '<span><strong>Guide prices only.</strong> Every garment is different, so your final price is confirmed at drop-off or consultation, '
   'depending on the garment and the work needed. Nothing is started until you have agreed the price.</span></p>')
 
@@ -50,19 +50,19 @@ def price_table(cid, heading_tag="h2", link_id=True):
             f'<thead class="sr-only"><tr><th scope="col">Service</th><th scope="col">Guide price</th></tr></thead><tbody>{rows}</tbody></table></div>')
 
 # ---------- SVG ornaments ----------
-SPOOL = ('<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="6" width="44" height="8" rx="2" fill="#6b4a35"/><rect x="10" y="50" width="44" height="8" rx="2" fill="#6b4a35"/>'
-         '<rect x="15" y="14" width="34" height="36" fill="#b0636a"/><g stroke="#8e4950" stroke-width="1.4">' +
+SPOOL = ('<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="6" width="44" height="8" rx="2" fill="#6e4a2f"/><rect x="10" y="50" width="44" height="8" rx="2" fill="#6e4a2f"/>'
+         '<rect x="15" y="14" width="34" height="36" fill="#7b2d26"/><g stroke="#5c1d19" stroke-width="1.4">' +
          "".join(f'<line x1="15" y1="{y}" x2="49" y2="{y+2}"/>' for y in range(16, 50, 4)) +
-         '</g><path d="M49 30 C 58 34, 60 44, 54 52" fill="none" stroke="#b0636a" stroke-width="1.5"/></svg>')
-MACHINE = ('<svg class="machine-svg" viewBox="0 0 220 130" aria-hidden="true"><g fill="#e9dcc6">'
+         '</g><path d="M49 30 C 58 34, 60 44, 54 52" fill="none" stroke="#7b2d26" stroke-width="1.5"/></svg>')
+MACHINE = ('<svg class="machine-svg" viewBox="0 0 220 130" aria-hidden="true"><g fill="#e6d4b4">'
   '<path d="M20 112h180v10H20z"/><path d="M38 108c0-40 4-62 30-70h86c22 0 30 10 30 26v44h-20V66c0-8-4-12-12-12H78c-14 4-18 20-18 54z"/>'
-  '<rect x="150" y="30" width="44" height="12" rx="4"/><rect x="62" y="84" width="10" height="24"/><rect x="64" y="104" width="6" height="8" fill="#c6952c"/>'
-  '<circle cx="196" cy="70" r="18" fill="none" stroke="#e9dcc6" stroke-width="5"/><circle cx="196" cy="70" r="4"/></g>'
-  '<path d="M90 47c10-6 30-6 40 0" stroke="#c6952c" stroke-width="2" fill="none"/><path d="M98 52c6-3 18-3 24 0" stroke="#c6952c" stroke-width="1.5" fill="none"/>'
-  '<path d="M20 126h180" stroke="#c6952c" stroke-width="2" stroke-dasharray="6 5"/></svg>')
-LOGO = ('<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#c6952c"/><circle cx="24" cy="24" r="18" fill="none" stroke="#4a3122" stroke-width="1.5" stroke-dasharray="3 2.5"/>'
-        '<circle cx="18" cy="18" r="3.2" fill="#4a3122"/><circle cx="30" cy="18" r="3.2" fill="#4a3122"/><circle cx="18" cy="30" r="3.2" fill="#4a3122"/><circle cx="30" cy="30" r="3.2" fill="#4a3122"/>'
-        '<path d="M18 18L30 30M30 18L18 30" stroke="#b0636a" stroke-width="1.6"/></svg>')
+  '<rect x="150" y="30" width="44" height="12" rx="4"/><rect x="62" y="84" width="10" height="24"/><rect x="64" y="104" width="6" height="8" fill="#a87a3d"/>'
+  '<circle cx="196" cy="70" r="18" fill="none" stroke="#e6d4b4" stroke-width="5"/><circle cx="196" cy="70" r="4"/></g>'
+  '<path d="M90 47c10-6 30-6 40 0" stroke="#a87a3d" stroke-width="2" fill="none"/><path d="M98 52c6-3 18-3 24 0" stroke="#a87a3d" stroke-width="1.5" fill="none"/>'
+  '<path d="M20 126h180" stroke="#a87a3d" stroke-width="2" stroke-dasharray="6 5"/></svg>')
+LOGO = ('<svg viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="22" fill="#a87a3d"/><circle cx="24" cy="24" r="18" fill="none" stroke="#3a2216" stroke-width="1.5" stroke-dasharray="3 2.5"/>'
+        '<circle cx="18" cy="18" r="3.2" fill="#3a2216"/><circle cx="30" cy="18" r="3.2" fill="#3a2216"/><circle cx="18" cy="30" r="3.2" fill="#3a2216"/><circle cx="30" cy="30" r="3.2" fill="#3a2216"/>'
+        '<path d="M18 18L30 30M30 18L18 30" stroke="#7b2d26" stroke-width="1.6"/></svg>')
 def button_svg(color):
     return (f'<svg class="btn-icon" viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="27" fill="{color}"/><circle cx="30" cy="30" r="27" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="2"/>'
             '<circle cx="30" cy="30" r="20" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5" stroke-dasharray="3 3"/>'
@@ -194,7 +194,7 @@ def page_html(p):
 {"" if p.get("noindex") else f'<link rel="canonical" href="{url}">'}
 <meta name="robots" content="{"noindex" if p.get("noindex") else "index, follow, max-image-preview:large"}">
 <meta name="geo.region" content="GB-CON"><meta name="geo.placename" content="Newquay">
-<meta name="theme-color" content="#4a3122">
+<meta name="theme-color" content="#3a2216">
 <meta property="og:type" content="website"><meta property="og:locale" content="en_GB"><meta property="og:site_name" content="{E(C["business_name"])}">
 <meta property="og:title" content="{E(p["title"])}"><meta property="og:description" content="{E(p["desc"])}"><meta property="og:url" content="{url}">
 <meta property="og:image" content="{img}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="Antique black and gold sewing machine with thread spools, tape measure and tweed swatches">

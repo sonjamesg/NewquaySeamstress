@@ -87,14 +87,14 @@ def svc_page(p, eyebrow, lede, prose, cats=None, consult=False):
 def home(pre, g):
     C, E = g["C"], g["E"]
     sw = [
-        ("trouser-jeans-alterations-newquay", "f-denim", "Trouser &amp; jeans alterations", "Hems, original-hem jeans, turn-ups, waists taken in and legs tapered.", f"Guide from £{g['cat_from']('trousers')}", "#2e6664"),
-        ("zip-replacement-newquay", "f-mustard", "Zips &amp; buttons", "Trouser, skirt, jeans and coat zips, buttons restitched and new buttonholes.", "Guide from £3", "#b0636a"),
-        ("clothing-repairs-newquay", "f-tweed", "Repairs &amp; mending", "Split seams, small tears, patches and pocket bags, mended neatly.", f"Guide from £{g['cat_from']('repairs')}", "#c6952c"),
-        ("curtain-alterations-newquay", "f-velvet", "Curtains &amp; home", "Unlined, lined and blackout curtains shortened, cushion zips replaced.", f"Guide from £{g['cat_from']('curtains')}", "#b0636a"),
-        ("wedding-dress-alterations-cornwall", "f-lace", "Wedding &amp; bridal", "Wedding dress alterations from a tailor who has made wedding dresses.", "Price on consultation", "#2e6664"),
-        ("suit-tailoring-newquay", "f-wool", "Suits &amp; formal wear", "Military-standard tailoring for suits, jackets and formal wear.", "Price on consultation", "#c6952c"),
-        ("bespoke-dressmaking-newquay", "f-silk", "Bespoke &amp; ball gowns", "Made-to-measure dressmaking and ball gowns, designed with you.", "Price on consultation", "#b0636a"),
-        ("prices", "f-paper", "The full price list", "Every guide price in one place, plus express and drop-off notes.", "See guide prices →", "#2e6664"),
+        ("trouser-jeans-alterations-newquay", "f-denim", "Trouser &amp; jeans alterations", "Hems, original-hem jeans, turn-ups, waists taken in and legs tapered.", f"Guide from £{g['cat_from']('trousers')}", "#8a5c36"),
+        ("zip-replacement-newquay", "f-mustard", "Zips &amp; buttons", "Trouser, skirt, jeans and coat zips, buttons restitched and new buttonholes.", "Guide from £3", "#7b2d26"),
+        ("clothing-repairs-newquay", "f-tweed", "Repairs &amp; mending", "Split seams, small tears, patches and pocket bags, mended neatly.", f"Guide from £{g['cat_from']('repairs')}", "#a87a3d"),
+        ("curtain-alterations-newquay", "f-velvet", "Curtains &amp; home", "Unlined, lined and blackout curtains shortened, cushion zips replaced.", f"Guide from £{g['cat_from']('curtains')}", "#7b2d26"),
+        ("wedding-dress-alterations-cornwall", "f-lace", "Wedding &amp; bridal", "Wedding dress alterations from a tailor who has made wedding dresses.", "Price on consultation", "#8a5c36"),
+        ("suit-tailoring-newquay", "f-wool", "Suits &amp; formal wear", "Military-standard tailoring for suits, jackets and formal wear.", "Price on consultation", "#a87a3d"),
+        ("bespoke-dressmaking-newquay", "f-silk", "Bespoke &amp; ball gowns", "Made-to-measure dressmaking and ball gowns, designed with you.", "Price on consultation", "#7b2d26"),
+        ("prices", "f-paper", "The full price list", "Every guide price in one place, plus express and drop-off notes.", "See guide prices →", "#8a5c36"),
     ]
     cards = "".join(f'<a class="swatch reveal" style="--pin:{pin}" href="{pre}{s}/"><div class="fab {f} pinked-bottom" aria-hidden="true"></div><h3>{t}</h3><p>{d}</p><span class="price-tag">{pr}</span></a>' for s, f, t, d, pr, pin in sw)
     top = [("trousers", 0), ("trousers", 2), ("zips", 0), ("zips", 1), ("repairs", 1), ("curtains", 0)]
@@ -146,10 +146,10 @@ def home(pre, g):
 <section aria-labelledby="how-h"><div class="wrap">
 <div class="section-head reveal"><p class="script">Simple as that</p><h2 id="how-h">How it works</h2></div>
 <ul class="notions">
-<li class="reveal spin-hover">{g["button_svg"]("#b0636a")}<div><h3>1. Wash it</h3><p>Clean items only, so please freshly wash garments and curtains before drop-off.</p></div></li>
-<li class="reveal spin-hover">{g["button_svg"]("#2e6664")}<div><h3>2. Pin it</h3><p>We are happy to pin hems at drop-off, or pin or measure your preferred length at home.</p></div></li>
-<li class="reveal spin-hover">{g["button_svg"]("#c6952c")}<div><h3>3. We stitch it</h3><p>Your price is confirmed at drop-off. Standard turnaround {E(C["turnaround_standard"])}.</p></div></li>
-<li class="reveal spin-hover">{g["button_svg"]("#7d2e36")}<div><h3>Need it fast?</h3><p>Express service in {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p></div></li>
+<li class="reveal spin-hover">{g["button_svg"]("#7b2d26")}<div><h3>1. Wash it</h3><p>Clean items only, so please freshly wash garments and curtains before drop-off.</p></div></li>
+<li class="reveal spin-hover">{g["button_svg"]("#8a5c36")}<div><h3>2. Pin it</h3><p>We are happy to pin hems at drop-off, or pin or measure your preferred length at home.</p></div></li>
+<li class="reveal spin-hover">{g["button_svg"]("#a87a3d")}<div><h3>3. We stitch it</h3><p>Your price is confirmed at drop-off. Standard turnaround {E(C["turnaround_standard"])}.</p></div></li>
+<li class="reveal spin-hover">{g["button_svg"]("#6a2420")}<div><h3>Need it fast?</h3><p>Express service in {E(C["turnaround_express"])} for an extra £{C["express_surcharge"]}.</p></div></li>
 </ul></div></section>
 
 <section class="linen" aria-labelledby="areas-h"><div class="wrap">
@@ -331,10 +331,10 @@ def about_page(p):
 <section><div class="wrap"><div class="section-head reveal"><p class="script">Meet the makers</p><h2>Sylvia &amp; Maxine</h2></div><div class="people">{people}</div></div></section>
 <section class="tweed stitched"><div class="wrap"><div class="section-head reveal"><h2>What that means for you</h2></div>
 <ul class="notions">
-<li class="reveal">{g["button_svg"]("#c6952c")}<div><h3>Precision</h3><p>Military-standard finishing on everyday alterations.</p></div></li>
-<li class="reveal">{g["button_svg"]("#b0636a")}<div><h3>Construction know-how</h3><p>Someone who has made gowns and suits, altering yours.</p></div></li>
-<li class="reveal">{g["button_svg"]("#2e6664")}<div><h3>Honest advice</h3><p>Clear guide prices, confirmed at drop-off before work starts.</p></div></li>
-<li class="reveal">{g["button_svg"]("#e9dcc6")}<div><h3>Local</h3><p>Based in Newquay, a short trip from St Mawgan, Crantock and St Columb.</p></div></li>
+<li class="reveal">{g["button_svg"]("#a87a3d")}<div><h3>Precision</h3><p>Military-standard finishing on everyday alterations.</p></div></li>
+<li class="reveal">{g["button_svg"]("#7b2d26")}<div><h3>Construction know-how</h3><p>Someone who has made gowns and suits, altering yours.</p></div></li>
+<li class="reveal">{g["button_svg"]("#8a5c36")}<div><h3>Honest advice</h3><p>Clear guide prices, confirmed at drop-off before work starts.</p></div></li>
+<li class="reveal">{g["button_svg"]("#e6d4b4")}<div><h3>Local</h3><p>Based in Newquay, a short trip from St Mawgan, Crantock and St Columb.</p></div></li>
 </ul></div></section>'''
     return body
 
